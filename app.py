@@ -1,12 +1,23 @@
-import praw
+from flask import Flask
+from flask import render_template
+from flask_fontawesome import FontAwesome
 
-reddit = praw.Reddit(client_id="zcpKwNZG8DvpMg", client_secret="urYURxN7NEao8TlE-gB_33f3ANE", user_agent="trevor")
+app = Flask(__name__)
+app.secret_key = 'secret_key'
+fa = FontAwesome(app)
 
-weirdo = reddit.redditor(name="spez")
+app.add_url_rule('/api/<redditusername>',
+                 view_func=User.as_view('user'),
+                 methods=['GET', 'POST'])
 
-comments = []
 
-for comment in weirdo.comments.new(limit=None):
-    comments.append(comment.body)
+@app.route('/')
+def index():
+    """
+    Landing Page
+    """
+    return render_template('index.html')
 
-print(comments[0])
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
