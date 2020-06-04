@@ -32,5 +32,5 @@ class userView(View):
             return renderUser(user)
         else:
             userObj = processUser(username)
-            model.insertUser(user)
+            model.insertUser(userObj)
             return renderUser(userObj)
