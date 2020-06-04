@@ -4,8 +4,17 @@ reddit = praw.Reddit(client_id="zcpKwNZG8DvpMg",
                      client_secret="urYURxN7NEao8TlE-gB_33f3ANE", user_agent="trevor")
 
 
+blanketUser = {
+    'body': '',
+    'score': 0,
+    'username': '',
+}
+
+
 def instantiate(username):
-    return getNewComments(retrieveUser(username))
+    user = retrieveUser(username)
+    karma = user.comment_karma
+    return [karma, getNewComments(user)]
 
 
 def retrieveUser(username):
@@ -14,24 +23,39 @@ def retrieveUser(username):
 
 def getNewComments(user):
     comments = []
-    for comment in user.comments.new(limit=5):
+    for comment in user.comments.new(limit=100):
         parent = comment.parent()
         if comment.is_root:
-            par = {
-                'body': parent.selftext,
-                'score': parent.score,
-                'username': parent.author
-            }
+            if parent.author:
+                try:
+                    par = {
+                        'body': parent.selftext,
+                        'score': parent.score,
+                        'username': parent.author.name
+                    }
+                except Exception as e:
+                    print(f"{e}: top level comment")
+                    par = blanketUser
+                    print(comment.id)
+
         else:
-            par = {
-                'body': parent.body,
-                'score': parent.score,
-                'username': parent.author
-            }
+            try:
+                par = {
+                    'body': parent.body,
+                    'score': parent.score,
+                    'username': parent.author.name
+                }
+
+            except Exception as e:
+                print(f"{e}: nested comment")
+                par = blanketUser
+                print(comment.id)
+
         commentObj = {
+            'id': comment.id,
             'body': comment.body,
             'parent': par,
-            'subreddit': comment.subreddit,
+            'subreddit': comment.subreddit.display_name,
             'score': comment.score
         }
         comments.append(commentObj)
