@@ -3,4 +3,3 @@ flask
 boto3
 gunicorn
 flask-FontAwesome
-psaw

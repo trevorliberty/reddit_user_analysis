@@ -7,7 +7,6 @@ Link the apis together
 
 import random
 # random.uniform is being used. we will need to patch in the actual api that analyzes sentiments
-# pull in the ids of each  comment
 
 
 class Parent():
