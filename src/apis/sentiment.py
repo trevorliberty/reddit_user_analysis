@@ -1,4 +1,6 @@
 import boto3
+import re
+import requests
 
 client = boto3.client('comprehend')
 
@@ -29,7 +31,7 @@ def extractSentiment(textData, language = "N/A"):
     :param textData: string whose sentiment is to be analyzed.
     :param language: RFC 5646 language code of the text to be analyzed. If none is provided, the language will be detected automatically.
     :returns: Extracted sentiment of the text as a string ('POSITIVE', 'NEGATIVE', 'NEUTRAL', 'MIXED'). If unable to process for whatever reason, returns 'UNDEFINED'.
-    :raises: Nothing (all exceptions are caught and 0 is returned as the default)
+    :raises: Nothing (all exceptions are caught and 'UNDEFINED' is returned as the default)
     """
 
     if language == "N/A":
@@ -46,3 +48,35 @@ def extractSentiment(textData, language = "N/A"):
             return 'UNDEFINED'
     else:
         return 'UNDEFINED'
+
+
+def getComplexity(textData):
+    """ 
+    Analyzes and ranks text on its linguistic complexity on a scale of 1 to 10 where 1 is least complex and 10 is most complex.
+    Note: most text stacks around 4-5 range. So, 1 - extremely below average, 2-3 - below average, 4 - average, 5-6 above average, 7+ genius. 
+    The text is expected to be no longer than 200 words or 3000 characters whichever comes first.
+
+    :param textData: string whose complexity is to be analyzed.
+    :returns: Complexity score on a scale of 1 to 10 where 1 is least complex and 10 is most complex. If unable to process for whatever reason, returns -1.
+    :raises: Nothing, -1 is returned if something fails.
+    """
+
+
+    url = "https://twinword-language-scoring.p.rapidapi.com/text/"
+
+    wordCount = len(re.findall(r'\w+', textData)) 
+    charCount = len(textData)
+
+    if wordCount <= 200 and charCount <= 3000:
+        querystring = {"text":textData}
+        headers = {
+            'x-rapidapi-host': "twinword-language-scoring.p.rapidapi.com",
+            'x-rapidapi-key': "09e32c1f41mshfb7d5522017cdd3p18bd8fjsnb1b575e4cc6f"
+            }
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        if response:
+            return response.json()['ten_degree']
+        else:
+            return -1
+    else:
+        return -1
