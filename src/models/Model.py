@@ -4,7 +4,7 @@ class Model():
         Retrieves the user from database.
         :param userName: name of the user to be retrieved
         :returns: undefined if the user is not found in the database. User object if it is.
-        :raises: Databse errors on connection and insertion
+        :raises: Database errors on connection and insertion
         """
         pass
 
@@ -13,6 +13,6 @@ class Model():
         Inserts proccessed user information into the database for future access.
         :param user: user object with proccessed fields
         :returns: nothing
-        :raises: Databse errors on connection and insertion
+        :raises: Database errors on connection and insertion
         """
         pass

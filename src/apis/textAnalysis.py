@@ -1,28 +1,33 @@
 import boto3
 import re
 import requests
+import random
 
 client = boto3.client('comprehend')
 
-def detectLanguage(textData):
+def getLanguage(textData):
     """ 
     Detects the language of the passed in string
-    :param textData string whose language is to be analyzed. Must be at least 20 characters long.
+    :param textData string whose language is to be analyzed. Must be at least 20 characters long and have fewer than 5000 bytes of UTF-8 compliant characters.
     :returns: RFC 5646 language code of the text or 'en' if an error occurs.
-    :raises: Nothing (all exceptions are caught and 'en' [English] is returned as the default).
+    :raises: Nothing (all exceptions are caught and 'UNDEFINED' is returned if something goes wrong).
     """
-    if len(textData) < 20 or len(textData.encode('utf-8')) < 5000:
-        return 'en'
+
+    """
+    if len(textData) < 20 or len(textData.encode('utf-8')) > 5000:
+        return 'UNDEFINED'
 
     try:
         return client.detect_dominant_language(
             Text=textData
         )['Languages'][0]['LanguageCode']
     except:
-        return 'en'
+        return 'UNDEFINED'
+    """
+    return 'en'
 
 
-def extractSentiment(textData, language = "N/A"):
+def getSentiment(textData, language = "UNDEFINED"):
     """ 
     Detects the language of the passed in string
     Text will be analyzed if it is smaller than 5000 bytes of UTF-8 encoded characters and in one of Amazon Comprehend's primary languages:
@@ -34,7 +39,8 @@ def extractSentiment(textData, language = "N/A"):
     :raises: Nothing (all exceptions are caught and 'UNDEFINED' is returned as the default)
     """
 
-    if language == "N/A":
+    """
+    if language == "UNDEFINED":
         language = detectLanguage(textData)
 
     if language in ['hi', 'de', 'zh-TW', 'ko', 'pt', 'en', 'it', 'fr', 'zh', 'es', 'ar', 'ja'] and len(textData.encode('utf-8')) < 5000:
@@ -48,6 +54,9 @@ def extractSentiment(textData, language = "N/A"):
             return 'UNDEFINED'
     else:
         return 'UNDEFINED'
+    """
+    return ['POSITIVE', 'NEGATIVE', 'NEUTRAL', 'MIXED'][random.randint(0,3)]
+
 
 
 def getComplexity(textData):
@@ -61,7 +70,7 @@ def getComplexity(textData):
     :raises: Nothing, -1 is returned if something fails.
     """
 
-
+    """
     url = "https://twinword-language-scoring.p.rapidapi.com/text/"
 
     wordCount = len(re.findall(r'\w+', textData)) 
@@ -80,3 +89,6 @@ def getComplexity(textData):
             return -1
     else:
         return -1
+    """
+    return random.randint(-1,10)
+    

@@ -1,16 +1,14 @@
 from apis.praw import instantiate
+from apis.textAnalysis import getLanguage, getSentiment, getComplexity
 from collections import Counter
-# from apis.gcloud import extactSentiment
-"""
-Link the apis together
-"""
-
 import random
-# random.uniform is being used. we will need to patch in the actual api that analyzes sentiments
+"""
+Contains functionality for querying and processing reddit user information.
+"""
 
 
 class Parent():
-    def __init__(self, score=0, contents=None, sentiment=0.0):
+    def __init__(self, score=0, contents=None, sentiment=None):
         self.score = score
         self.contents = contents
         self.sentiment = sentiment
@@ -24,7 +22,7 @@ class Parent():
 
 
 class Comment():
-    def __init__(self, score=0, contents=None, subreddit=None, sentiment=0.0, parent=None):
+    def __init__(self, score=0, contents=None, subreddit=None, sentiment=None, parent=None):
         self.score = score
         self.contents = contents
         self.subreddit = subreddit
@@ -44,75 +42,120 @@ class Comment():
 
 class User():
     def __init__(self):
+        #Raw data (data to be read from praw and assigned sentiment values)
+        self.name = "UNDEFINED"
+        self.language = "UNDEFINED"
         self.karma = 0
+        self.comments = []
+        self.commentCount = 0
+
+        #Processed data (extracted from raw data):
+        self.topSubreddits = []
         self.sentimentAverage = 0.0
         self.sentimentHighestComment = Comment()
         self.sentimentLowestComment = Comment()
         self.lowestRatedComment = Comment()
         self.topRatedComment = Comment()
         self.sentimentRatios = {}
-        self.subreddits = {}
-        self.comments = []
-
-    def getTopSubreddits(self):
-        subReddits = [c.subreddit for c in self.comments]
-        c = Counter(subReddits)
-        return c.most_common(3)
-
-    def getLowestRatedComments(self):
-        return sorted(self.comments, key=lambda x: x.score)
-
-    def getHighestRatedComments(self):
-        return sorted(self.comments, key=lambda x: x.score, reverse=True)
 
 
-def populateUser(username) -> User:
-    userObj = User()
-    redditor = instantiate(username)
-    userObj.karma = redditor[0]
-    user_comments = redditor[1]
-    subreddits = userObj.subreddits
+def guessUserLanguage(comments):
+    """
+    Accepts a list of comments and guesses the language of the user who generated them based on 15 randomly selected comments.
+    Only generates a guess if at least 15 comments are provided.
+    This is problematic for actively multilingual users but saves a decent amount of processing time and drains API funds slower.
 
-    for comment in user_comments:
-        subreddit = comment['subreddit']
-        commentSentiment = random.uniform(0, 1)
-        try:
-            mapLoc = subreddits[subreddit]
-            mapLoc.append(commentSentiment)
-        except:
-            subreddits[subreddit] = [commentSentiment]
+    :param comments: List of comments based upon which the guess is to be made.
+    :returns: RFC 5646 language code of the best guess or 'UNDEFINED' if filed to make a guess for whatever reason.
+    """
+    langSampleList = list()
+    commentCount = len(comments)
+    guessedLanguage = 'UNDEFINED'
 
-        parent = comment['parent']
+    if(commentCount < 15):
+        return 'UNDEFINED'
+    else:
+        # Extracts 15 random comments from the comment pool and get their language.
+        commentRandomIndexList = random.sample(range(commentCount), 15) 
+        for index in commentRandomIndexList:
+           langSampleList.append(getLanguage(comments[index]))
+        
+        # Determines the most commonly occuring language in random sample.
+        rankedLanguages = Counter(langSampleList).most_common()
+        if rankedLanguages[0][0] == "UNDEFINED" and len(rankedLanguages) > 1:
+            return rankedLanguages[1][0]
+        return rankedLanguages[0][0]
+
+
+def generateUserWithRawData(username) -> User:
+    """
+    Accepts a username and returns a User with populated raw data fields.
+    Reads User's information from praw api, assigns the user a language, and assigns sentiment scores to all relevant comments.
+
+    :param username: Name of the user to be generated.
+    :returns: User with 'raw data' filled in
+    """
+
+    prawData = instantiate(username)
+    prawDataComments = prawData[1]
+
+    constructedUser = User()
+    constructedUser.name = username
+    constructedUser.karma = prawData[0]
+    constructedUser.commentCount = len(prawDataComments)
+ 
+    if(constructedUser.topRatedComment >= 20):
+        constructedUser.language = guessUserLanguage(prawDataComments)
+
+    # Loops over comments retrieved from praw api and processes relevant values for original comment and parent comment.
+    for comment in prawDataComments:
+
         parentObj = Parent(
-            # this frequently will not contain any text ,need toaccount for what type of thing the parent comment is
-            score=parent['score'],
-            contents=parent['body'],
-            sentiment=random.uniform(0, 1)
+            score=comment['parent']['score'],
+            contents=comment['parent']['body'],
+            sentiment=(comment['parent']['body'], constructedUser.language)
         )
 
         commentObj = Comment(
-            score=comment['score'],
-            subreddit=subreddit,
-            sentiment=commentSentiment,
-            contents=comment['body'],
-            parent=parentObj
+            subreddit = comment['subreddit'],
+            sentiment = getSentiment(comment['body'], constructedUser.language),
+            score = comment['score'],
+            contents = comment['body'],
+            parent = parentObj,
         )
-        userObj.comments.append(commentObj)
 
-    # sentiment average calculations
-    # can sort all of these to be by rating, sentiment, etc.
-    return userObj
+        constructedUser.comments.append(commentObj)
 
+    return constructedUser
+
+
+def processRawUserData(user):
+    """
+    Accepts a user with filled in 'raw data' fields, processes them and fills in 'processed data' fields.
+
+    :param user: User object with filled in 'raw data'
+    :returns: User with all data filled in.
+    """
+
+    #Determines favorite subreddits with ratio of all comments posted on each one.
+    subReddits = [c.subreddit for c in user.comments]
+    c = Counter(subReddits)
+    c = c.most_common(3)
+    for subreddit in c:
+        subreddit[1] = subreddit[1]/user.commentCount
+    user.topSubreddits = c
+
+    #Determiens best and worst rated comment
+    commentsSortedByScore = sorted(user.comments, key=lambda x: x.score)
+    user.topRatedComment = commentsSortedByScore[0]
+    user.lowestRatedComment = commentsSortedByScore[user.commentCount]
+
+    #And so on...
+    
 
 def processUser(username):
-    user = populateUser(username)
-    karma = user.karma
-    topSubreddits = user.getTopSubreddits()
-    lowestRatedComments = user.getLowestRatedComments()
-    highestRatedComments = user.getHighestRatedComments()
-    for comment in highestRatedComments:
-        print(comment.contents)
-        print(comment.score)
+    user = generateUserWithRawData(username)
+    processRawUserData(user)
 
-
-processUser('spez')
+#processUser('spez')
+#print(guessUserLanguage("HI"))
