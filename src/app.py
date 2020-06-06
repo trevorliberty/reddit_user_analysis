@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask_fontawesome import FontAwesome
-from .models import User
+from src.controllers.renderUser import userView as User
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'
