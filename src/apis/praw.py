@@ -13,7 +13,10 @@ blanketUser = {
 
 def instantiate(username):
     user = retrieveUser(username)
-    karma = user.comment_karma
+    try:
+        karma = user.comment_karma
+    except:
+        return 404
     return [karma, getNewComments(user)]
 
 

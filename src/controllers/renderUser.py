@@ -32,5 +32,7 @@ class userView(View):
             return renderUser(user)
         else:
             userObj = processUser(username)
+            if userObj == 404:
+                return Response(status=404)
             model.insertUser(userObj)
             return renderUser(userObj)

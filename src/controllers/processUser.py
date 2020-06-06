@@ -176,16 +176,15 @@ def guessUserLanguage(comments):
         return rankedLanguages[0][0]
 
 
-def generateUserWithRawData(username) -> User:
+def generateUserWithRawData(prawData, username) -> User:
     """
-    Accepts a username and returns a User with populated raw data fields.
+    Accepts raw data from the praw api and returns a User with populated raw data fields.
     Reads User's information from praw api, assigns the user a language, and assigns sentiment scores to all relevant comments.
 
-    :param username: Name of the user to be generated.
+    :param prawData: raw data from praw api
     :returns: User with 'raw data' filled in
     """
 
-    prawData = instantiate(username)
     prawDataComments = prawData[1]
 
     constructedUser = User()
@@ -341,9 +340,14 @@ def processRawUserData(user):
 
 
 def processUser(username):
-    user = generateUserWithRawData(username)
-    processRawUserData(user)
-    user.display()
+    prawData = instantiate(username)
+    if prawData != 404:
+        user = generateUserWithRawData(prawData, username)
+        processRawUserData(user)
+        user.display()
+        return user
+    else:
+        return 404
 
 
 processUser('nottacobell')
