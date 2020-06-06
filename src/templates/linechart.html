@@ -1,0 +1,26 @@
+{% extends "chartbase.html" %}
+{% block content %}
+{{ super() }}
+
+<script>
+      // get bar chart canvas
+      var mychart = document.getElementById("chart").getContext("2d");
+
+      steps = 10
+      max = {{ max }}
+      // draw bar chart
+      var LineChart = new Chart(mychart).Line(barData, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max / steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: true,
+        scaleShowGridLines : true,
+        barShowStroke : true,
+        scaleShowLabels: true,
+        bezierCurve: false,
+      });
+
+</script>
+
+{% endblock content %}
