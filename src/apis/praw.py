@@ -23,7 +23,7 @@ def retrieveUser(username):
 
 def getNewComments(user):
     comments = []
-    for comment in user.comments.new(limit=25): #TODO change to 100
+    for comment in user.comments.new(limit=40):  # TODO change to 100
         parent = comment.parent()
         if comment.is_root:
             if parent.author:

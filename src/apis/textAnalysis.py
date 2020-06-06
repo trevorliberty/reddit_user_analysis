@@ -5,6 +5,7 @@ import random
 
 client = boto3.client('comprehend')
 
+
 def getLanguage(textData):
     """ 
     Detects the language of the passed in string
@@ -27,7 +28,7 @@ def getLanguage(textData):
     return 'en'
 
 
-def getSentiment(textData, language = "UNDEFINED"):
+def getSentiment(textData, language="UNDEFINED"):
     """ 
     Detects the language of the passed in string
     Text will be analyzed if it is smaller than 5000 bytes of UTF-8 encoded characters and in one of Amazon Comprehend's primary languages:
@@ -55,8 +56,7 @@ def getSentiment(textData, language = "UNDEFINED"):
     else:
         return 'UNDEFINED'
     """
-    return ['POSITIVE', 'NEGATIVE', 'NEUTRAL', 'MIXED'][random.randint(0,3)]
-
+    return ['POSITIVE', 'NEGATIVE', 'NEUTRAL', 'MIXED'][random.randint(0, 3)]
 
 
 def getComplexity(textData):
@@ -90,5 +90,4 @@ def getComplexity(textData):
     else:
         return -1
     """
-    return random.randint(-1,10)
-    
+    return random.randint(-1, 10)

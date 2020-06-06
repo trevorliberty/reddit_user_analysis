@@ -6,10 +6,12 @@ import random
 Contains functionality for querying and processing reddit user information.
 """
 
+
 class Parent():
     """
         Used to store parent comment information inside 'Comment' objects.
     """
+
     def __init__(self, score=0, contents=None, sentiment=None):
         self.score = score
         self.contents = contents
@@ -27,6 +29,7 @@ class Comment():
     """
         Used to store comment information inside 'User' objects.
     """
+
     def __init__(self, score=0, contents=None, subreddit=None, sentiment=None, parent=None):
         self.score = score
         self.contents = contents
@@ -49,33 +52,35 @@ class SentimentChangeRatios():
     """
         Used to store information about sentiment change between parent comment and user comment inside 'User' objects.
     """
+
     def __init__(self):
-        self.positiveToNegative = 0
-        self.positiveToNeutral = 0
-        self.positiveToMixed = 0
-        self.negativeToPositive = 0
-        self.negativeToNeutral = 0
-        self.negativeToMixed = 0
-        self.neutralToPositive = 0
-        self.neutralToNegative = 0
-        self.neutralToMixed = 0
-        self.mixedToPositive = 0
-        self.mixedToNegative = 0
-        self.mixedToNeutral = 0
+        self.positiveToNegative = 0.0
+        self.positiveToNeutral = 0.0
+        self.positiveToMixed = 0.0
+        self.negativeToPositive = 0.0
+        self.negativeToNeutral = 0.0
+        self.negativeToMixed = 0.0
+        self.neutralToPositive = 0.0
+        self.neutralToNegative = 0.0
+        self.neutralToMixed = 0.0
+        self.mixedToPositive = 0.0
+        self.mixedToNegative = 0.0
+        self.mixedToNeutral = 0.0
+
     def display(self):
         print('***** Sentiment change ratios: *****')
         print(self.positiveToNegative)
-        print(self.positiveToNeutral)
-        print(self.positiveToMixed)
-        print(self.negativeToPositive)
-        print(self.negativeToNeutral)
-        print(self.negativeToMixed)
-        print(self.neutralToPositive)
         print(self.neutralToNegative)
-        print(self.neutralToMixed)
-        print(self.mixedToPositive)
         print(self.mixedToNegative)
+        print(self.negativeToPositive)
+        print(self.neutralToPositive)
+        print(self.mixedToPositive)
+        print(self.positiveToNeutral)
+        print(self.negativeToNeutral)
         print(self.mixedToNeutral)
+        print(self.positiveToMixed)
+        print(self.negativeToMixed)
+        print(self.neutralToMixed)
         print('*****')
 
 
@@ -83,11 +88,13 @@ class SentimentRatios():
     """
         Used to store information about comment sentiment ratios inside 'User' objects.
     """
+
     def __init__(self):
         self.positive = 0
         self.negative = 0
         self.neutral = 0
         self.mixed = 0
+
     def display(self):
         print('***** Sentiment ratios: *****')
         print(self.positive)
@@ -101,15 +108,16 @@ class User():
     """
         Used object stores all information collected about a reddit user.
     """
+
     def __init__(self):
-        #Raw data (data to be read from praw and assigned sentiment values)
+        # Raw data (data to be read from praw and assigned sentiment values)
         self.name = "UNDEFINED"
         self.language = "UNDEFINED"
         self.karma = 0
         self.comments = []
         self.commentCount = 0
 
-        #Processed data (extracted from raw data):
+        # Processed data (extracted from raw data):
         self.topSubreddits = []
         self.dominantSentiment = "UNDEFINED"
         self.lowestRatedComment = Comment()
@@ -117,22 +125,27 @@ class User():
         self.sentimentChangeRatios = SentimentChangeRatios()
         self.sentimentRatios = SentimentRatios()
 
-        def display(self):
-            print('################# USER: #################')
-            print("Name: " + self.name)
-            print("Language: " + self.language)
-            print("Karma: " + self.karma)
-            print("Comment count: " + self.commentCount)
+    def display(self):
+        print('################# USER: #################')
+        print(f"Name:   {self.name}")
+        print(f"Language:  {self.language}")
+        print(f"Karma:  {self.karma}")
+        print(f"Comment count: {self.commentCount}")
 
-            #Processed data (extracted from raw data):
-            print("Top subreddtis:")
-            for subreddit in self.topSubreddits:
-                print(subreddit)
-            print("Sentiment Average: " + self.dominantSentiment)
-            self.lowestRatedComment.display()
-            self.topRatedComment.display()
-            print('#########################################')
+        # Processed data (extracted from raw data):
+        print("Top subreddtis:")
+        for subreddit in self.topSubreddits:
+            print(subreddit)
 
+        print(f"Sentiment Average:  {self.dominantSentiment}")
+        print('################# LOWEST RATED COMMENT: #################')
+        self.lowestRatedComment.display()
+        print('################# HIGHEST RATED COMMENT: #################')
+        self.topRatedComment.display()
+        print('################# SENTIMENT RATIOS: #################')
+        self.sentimentRatios.display()
+        print('################# SENTIMENT CHANGE RATIOS: #################')
+        self.sentimentChangeRatios.display()
 
 
 def guessUserLanguage(comments):
@@ -152,10 +165,10 @@ def guessUserLanguage(comments):
         return 'UNDEFINED'
     else:
         # Extracts 15 random comments from the comment pool and get their language.
-        commentRandomIndexList = random.sample(range(commentCount), 15) 
+        commentRandomIndexList = random.sample(range(commentCount), 15)
         for index in commentRandomIndexList:
-           langSampleList.append(getLanguage(comments[index]))
-        
+            langSampleList.append(getLanguage(comments[index]))
+
         # Determines the most commonly occuring language in random sample.
         rankedLanguages = Counter(langSampleList).most_common()
         if rankedLanguages[0][0] == "UNDEFINED" and len(rankedLanguages) > 1:
@@ -173,39 +186,32 @@ def generateUserWithRawData(username) -> User:
     """
 
     prawData = instantiate(username)
+    prawDataComments = prawData[1]
 
     constructedUser = User()
-    constructedUser.comments = prawData[1]
+
     constructedUser.name = username
     constructedUser.karma = prawData[0]
-    constructedUser.commentCount = len(constructedUser.comments)
- 
+    constructedUser.commentCount = len(prawDataComments)
+
+    # Predicts the user's language.
     if(constructedUser.commentCount >= 20):
         rawCommentArray = []
-        for comment in constructedUser.comments:
+        for comment in prawDataComments:
             rawCommentArray.append(comment['body'])
         constructedUser.language = guessUserLanguage(rawCommentArray)
 
     # Loops over comments retrieved from praw api and processes relevant values for original comment and parent comment.
-    for comment in constructedUser.comments:
-        print("***************************")
-        print(comment)
-        print("***************************")
+    for comment in prawDataComments:
 
-        #Determines sentiment for comment and parent comment.
-        print(type(comment))
-        if isinstance(comment, Comment):
-            print(comment.contents)
-        else:
-            commentSentiment = getSentiment(comment['body'], constructedUser.language)
+        # Determines sentiment for comment and parent comment.
+        commentSentiment = getSentiment(
+            comment['body'], constructedUser.language)
         parentCommentSentiment = 'UNDEFINED'
-        #Only determiens parent comment sentiment if child sentiment is defined since it won't be needed otherwise.
-        if commentSentiment != 'UNDEFINED': 
-            try:
-                parentCommentSentiment = getSentiment(comment['parent']['body'], constructedUser.language)
-            except:
-                parentCommentSentiment = None
-
+        # Only determiens parent comment sentiment if child sentiment is defined since it won't be needed otherwise.
+        if commentSentiment != 'UNDEFINED':
+            parentCommentSentiment = getSentiment(
+                comment['parent']['body'], constructedUser.language)
 
         parentObj = Parent(
             score=comment['parent']['score'],
@@ -214,11 +220,11 @@ def generateUserWithRawData(username) -> User:
         )
 
         commentObj = Comment(
-            subreddit = comment['subreddit'],
-            sentiment = commentSentiment,
-            score = comment['score'],
-            contents = comment['body'],
-            parent = parentObj,
+            subreddit=comment['subreddit'],
+            sentiment=commentSentiment,
+            score=comment['score'],
+            contents=comment['body'],
+            parent=parentObj,
         )
 
         constructedUser.comments.append(commentObj)
@@ -233,30 +239,29 @@ def processRawUserData(user):
     :param user: User object with filled in 'raw data'
     :returns: User with all data filled in.
     """
-    user = User()
-
 # Determine favorite subreddits with ratio of all comments posted on each one.
     subreddits = [c.subreddit for c in user.comments]
     c = Counter(subreddits)
     c = c.most_common(3)
     for subreddit in c:
-        user.topSubreddits.append({subreddit[0], subreddit[1]/user.commentCount})
+        user.topSubreddits.append(
+            {subreddit[0], subreddit[1]/user.commentCount})
 
 # Determine best and worst rated comment
     commentsSortedByScore = sorted(user.comments, key=lambda x: x.score)
-    user.topRatedComment = commentsSortedByScore[0]
-    user.lowestRatedComment = commentsSortedByScore[user.commentCount - 1]
+    user.lowestRatedComment = commentsSortedByScore[0]
+    user.topRatedComment = commentsSortedByScore[user.commentCount - 1]
 
-# Process comment sentiment data. 
-    commentsWithValidSentiment = 0
-    commentPairsWithValidSentiment = 0
+# Process comment sentiment data.
+    commentsWithValidSentiment = 0.0
+    commentPairsWithValidSentiment = 0.0
     for comment in user.comments:
-        #Increment before operations
-        commentPairsWithValidSentiment += 1
-        commentsWithValidSentiment += 1
+        # Increment before operations
+        commentPairsWithValidSentiment += 1.0
+        commentsWithValidSentiment += 1.0
 
         if comment.sentiment == 'POSITIVE':
-            comment.sentimentRatios.positive += 1
+            user.sentimentRatios.positive += 1
             if comment.parent.sentiment == 'NEGATIVE':
                 user.sentimentChangeRatios.negativeToPositive += 1
             elif comment.parent.sentiment == 'NEUTRAL':
@@ -265,9 +270,9 @@ def processRawUserData(user):
                 user.sentimentChangeRatios.mixedToPositive += 1
             else:
                 commentPairsWithValidSentiment -= 1
-        
+
         elif comment.sentiment == 'NEGATIVE':
-            comment.sentimentRatios.negative += 1
+            user.sentimentRatios.negative += 1
             if comment.parent.sentiment == 'POSITIVE':
                 user.sentimentChangeRatios.positiveToNegative += 1
             elif comment.parent.sentiment == 'NEUTRAL':
@@ -278,7 +283,7 @@ def processRawUserData(user):
                 commentPairsWithValidSentiment -= 1
 
         elif comment.sentiment == 'NEUTRAL':
-            comment.sentimentRatios.neutral += 1
+            user.sentimentRatios.neutral += 1
             if comment.parent.sentiment == 'POSITIVE':
                 user.sentimentChangeRatios.positiveToNeutral += 1
             elif comment.parent.sentiment == 'NEGATIVE':
@@ -289,7 +294,7 @@ def processRawUserData(user):
                 commentPairsWithValidSentiment -= 1
 
         elif comment.sentiment == 'MIXED':
-            comment.sentimentRatios.mixed += 1
+            user.sentimentRatios.mixed += 1
             if comment.parent.sentiment == 'POSITIVE':
                 user.sentimentChangeRatios.positiveToMixed += 1
             elif comment.parent.sentiment == 'NEGATIVE':
@@ -299,17 +304,18 @@ def processRawUserData(user):
             else:
                 commentPairsWithValidSentiment -= 1
 
-        else: #If the comment is 'UNDEFINED', then we've failed to fined either a valid comment or comment pair.
+        else:  # If the comment is 'UNDEFINED', then we've failed to fined either a valid comment or comment pair.
             commentPairsWithValidSentiment -= 1
             commentsWithValidSentiment -= 1
 
-    if(commentsWithValidSentiment > 0):
+    if(commentsWithValidSentiment > 0.0):
         user.sentimentRatios.positive /= commentsWithValidSentiment
         user.sentimentRatios.negative /= commentsWithValidSentiment
         user.sentimentRatios.neutral /= commentsWithValidSentiment
         user.sentimentRatios.mixed /= commentsWithValidSentiment
 
-        dominantSentimentCount = max([user.sentimentRatios.positive, user.sentimentRatios.negative, user.sentimentRatios.neutral, user.sentimentRatios.mixed])        
+        dominantSentimentCount = max([user.sentimentRatios.positive, user.sentimentRatios.negative,
+                                      user.sentimentRatios.neutral, user.sentimentRatios.mixed])
         if(dominantSentimentCount == user.sentimentRatios.positive):
             user.dominantSentiment = "POSITIVE"
         if(dominantSentimentCount == user.sentimentRatios.negative):
@@ -319,15 +325,14 @@ def processRawUserData(user):
         if(dominantSentimentCount == user.sentimentRatios.mixed):
             user.dominantSentiment = "MIXED"
 
-
-    if(commentPairsWithValidSentiment > 0):
+    if(commentPairsWithValidSentiment > 0.0):
         user.sentimentChangeRatios.positiveToNegative /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.positiveToNeutral /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.positiveToMixed /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.negativeToPositive /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.negativeToNeutral /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.negativeToMixed /= commentPairsWithValidSentiment
-        user.sentimentChangeRatios.neutralTkoPositive /= commentPairsWithValidSentiment
+        user.sentimentChangeRatios.neutralToPositive /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.neutralToNegative /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.neutralToMixed /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.mixedToPositive /= commentPairsWithValidSentiment
@@ -338,7 +343,7 @@ def processRawUserData(user):
 def processUser(username):
     user = generateUserWithRawData(username)
     processRawUserData(user)
-    #user.display()
+    user.display()
 
-processUser('spez')
-#print(guessUserLanguage("HI"))
+
+processUser('nottacobell')
