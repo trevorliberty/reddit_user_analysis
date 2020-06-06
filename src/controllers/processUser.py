@@ -1,5 +1,5 @@
-from apis.praw import instantiate
-from apis.textAnalysis import getLanguage, getSentiment, getComplexity
+from src.apis.praw import instantiate
+from src.apis.textAnalysis import getLanguage, getSentiment, getComplexity
 from collections import Counter
 import random
 """
@@ -349,5 +349,3 @@ def processUser(username):
     else:
         return 404
 
-
-processUser('nottacobell')

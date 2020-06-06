@@ -1,4 +1,4 @@
-from src.Model import Model
+from .Model import Model
 import boto3
 import json
 from boto3.dynamodb.conditions import Key
