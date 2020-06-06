@@ -1,3 +1,4 @@
+
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
 <head>
@@ -22,6 +23,7 @@
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 {%block content%}
 <div>
+    {%include 'nav.html'%}
     <script>
         $(document).ready(() => {
             $('body').hide();
@@ -42,9 +44,4 @@
         });
     </script>
     {%endblock%}
-    {% block footer %}
-    <div class="card-footer text-muted">
-        About Section
-    </div>
-    {% endblock footer %}
 </div>
