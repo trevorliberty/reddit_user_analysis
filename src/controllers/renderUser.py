@@ -1,6 +1,6 @@
 from flask import redirect, request, url_for, render_template, Response
 from flask.views import MethodView, View
-import src.models
+import src.models as models
 from .processUser import processUser
 
 
