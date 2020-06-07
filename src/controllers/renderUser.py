@@ -1,19 +1,39 @@
 from flask import redirect, request, url_for, render_template, Response
 from flask.views import MethodView, View
 import src.models as models
-from .processUser import processUser
+from .processUser import processUser, User
 
 
 def renderUser(user):
     return render_template(
-        karma=user['karma'],
-        lowestRatedComment=user['lowestRatedComment'],
-        topRatedComment=user['topRatedComment'],
-        sentimentAverage=user['sentimentAverage'],
-        sentimentHighestComment=user['sentimentHighestComment'],
-        sentimentLowestComment=user['sentimentLowestComment'],
-        sentimentRatios=user['sentimentRatios'],  # object
-        topSubreddits=user['topSubreddits']  # object
+        'index.html',
+        name = user.name,
+        language = user.language,
+        karma = user.karma,
+        topSubreddits = user.topSubreddits,
+        dominantSentiment = user.dominantSentiment,
+        lowestRatedComment = user.lowestRatedComment.contents,
+        topRatedComment = user.topRatedComment.contents,
+        sentimentChangeRatios = {
+            'positiveToNegative' : user.sentimentChangeRatios.positiveToNegative ,
+            'positiveToNeutral' : user.sentimentChangeRatios.positiveToNeutral,
+            'positiveToMixed' : user.sentimentChangeRatios.positiveToMixed ,
+            'negativeToPositive' : user.sentimentChangeRatios.negativeToPositive ,
+            'negativeToNeutral' : user.sentimentChangeRatios.negativeToNeutral,
+            'negativeToMixed' : user.sentimentChangeRatios.negativeToMixed ,
+            'neutralToPositive' : user.sentimentChangeRatios.neutralToPositive ,
+            'neutralToPositive' : user.sentimentChangeRatios.neutralToPositive ,
+            'neutralToMixed' : user.sentimentChangeRatios.neutralToMixed ,
+            'mixedToPositive' : user.sentimentChangeRatios.mixedToPositive ,
+            'mixedToNegative' : user.sentimentChangeRatios.mixedToNegative ,
+            'mixedToNeutral' : user.sentimentChangeRatios.mixedToNeutral ,
+        },
+        sentimentRatios = {
+            'positive' : user.sentimentRatios.positive,
+            'negative' : user.sentimentRatios.negative,
+            'neutral' : user.sentimentRatios.neutral,
+            'mixed' : user.sentimentRatios.mixed
+        },
     )
 
 
