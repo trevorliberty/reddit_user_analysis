@@ -12,8 +12,18 @@ def renderUser(user):
         karma=user.karma,
         topSubreddits=user.topSubreddits,
         dominantSentiment=user.dominantSentiment,
-        lowestRatedComment=user.lowestRatedComment.contents,
-        topRatedComment=user.topRatedComment.contents,
+        lowestRatedComment= {
+            'contents' : user.lowestRatedComment.contents,
+            'score' : user.lowestRatedComment.score,
+            'subreddit' : user.lowestRatedComment.subreddit,
+            'sentiment' : user.lowestRatedComment.sentiment,
+        },
+        topRatedComment= {
+            'contents' : user.topRatedComment.contents,
+            'score' : user.topRatedComment.score,
+            'subreddit' : user.topRatedComment.subreddit,
+            'sentiment' : user.topRatedComment.sentiment,
+        },
         sentimentChangeRatios={
             'positiveToNegative': user.sentimentChangeRatios.positiveToNegative,
             'positiveToNeutral': user.sentimentChangeRatios.positiveToNeutral,

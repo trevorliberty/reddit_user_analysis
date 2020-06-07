@@ -101,8 +101,19 @@ class Users(Model):
         topSubreddits = {k: Decimal(
             str(v)) for k, v in topSubreddits.items()}
 
-        lowestRated = user.lowestRatedComment.contents
-        topRated = user.topRatedComment.contents
+        lowestRated = {
+            'contents' : user.lowestRatedComment.contents,
+            'score' : user.lowestRatedComment.score,
+            'subreddit' : user.lowestRatedComment.subreddit,
+            'sentiment' : user.lowestRatedComment.sentiment,
+        }
+
+        topRated = {
+            'contents' : user.topRatedComment.contents,
+            'score' : user.topRatedComment.score,
+            'subreddit' : user.topRatedComment.subreddit,
+            'sentiment' : user.topRatedComment.sentiment,
+        }
 
         userToInsert = {
             'username': user.name,
