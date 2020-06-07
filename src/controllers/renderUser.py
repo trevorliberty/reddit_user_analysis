@@ -5,24 +5,71 @@ from .processUser import processUser, User
 
 
 def renderUser(user):
+    for k, v in user.items():
+        print(k)
+    print(user)
     return render_template(
-        'index.html',
+        'user.html',
+        name=user['name'],
+        # language=user['language'],
+        karma=user['karma'],
+        topSubreddits=user['topSubreddits'],
+        # dominantSentiment=user['dominantSentiment'],
+        lowestRatedComment={
+            'contents': user['lowestRatedComment']['contents'],
+            'score': user['lowestRatedComment']['score'],
+            'subreddit': user['lowestRatedComment']['subreddit'],
+            'sentiment': user['lowestRatedComment']['sentiment']
+        },
+        topRatedComment={
+            'contents': user['topRatedComment']['contents'],
+            'score': user['topRatedComment']['score'],
+            'subreddit': user['topRatedComment']['subreddit'],
+            'sentiment': user['topRatedComment']['sentiment'],
+        },
+        sentimentRatios={
+            'positive': user['sentimentRatios']['positive'],
+            'negative': user['sentimentRatios']['negative'],
+            'neutral': user['sentimentRatios']['neutral'],
+            'mixed': user['sentimentRatios']['mixed']
+        },
+        sentimentChangeRatios={
+            'positiveToNegative': user['sentimentChangeRatios']['positiveToNegative'],
+            'positiveToNeutral': user['sentimentChangeRatios']['positiveToNeutral'],
+            'positiveToMixed': user['sentimentChangeRatios']['positiveToMixed'],
+            'negativeToPositive': user['sentimentChangeRatios']['negativeToPositive'],
+            'negativeToNeutral': user['sentimentChangeRatios']['negativeToNeutral'],
+            'negativeToMixed': user['sentimentChangeRatios']['negativeToMixed'],
+            'neutralToPositive': user['sentimentChangeRatios']['neutralToPositive'],
+            'neutralToPositive': user['sentimentChangeRatios']['neutralToPositive'],
+            'neutralToMixed': user['sentimentChangeRatios']['neutralToMixed'],
+            'mixedToPositive': user['sentimentChangeRatios']['mixedToPositive'],
+            'mixedToNegative': user['sentimentChangeRatios']['mixedToNegative'],
+            'mixedToNeutral': user['sentimentChangeRatios']['mixedToNeutral'],
+        },
+        dominantSentiment=user['dominantSentiment']
+    )
+
+
+def renderUserObj(user):
+    return render_template(
+        'user.html',
         name=user.name,
         language=user.language,
         karma=user.karma,
         topSubreddits=user.topSubreddits,
         dominantSentiment=user.dominantSentiment,
-        lowestRatedComment= {
-            'contents' : user.lowestRatedComment.contents,
-            'score' : user.lowestRatedComment.score,
-            'subreddit' : user.lowestRatedComment.subreddit,
-            'sentiment' : user.lowestRatedComment.sentiment,
+        lowestRatedComment={
+            'contents': user.lowestRatedComment.contents,
+            'score': user.lowestRatedComment.score,
+            'subreddit': user.lowestRatedComment.subreddit,
+            'sentiment': user.lowestRatedComment.sentiment,
         },
-        topRatedComment= {
-            'contents' : user.topRatedComment.contents,
-            'score' : user.topRatedComment.score,
-            'subreddit' : user.topRatedComment.subreddit,
-            'sentiment' : user.topRatedComment.sentiment,
+        topRatedComment={
+            'contents': user.topRatedComment.contents,
+            'score': user.topRatedComment.score,
+            'subreddit': user.topRatedComment.subreddit,
+            'sentiment': user.topRatedComment.sentiment,
         },
         sentimentChangeRatios={
             'positiveToNegative': user.sentimentChangeRatios.positiveToNegative,
@@ -65,4 +112,4 @@ class userView(View):
             if userObj == 404:
                 return Response(status=404)
             model.insertUser(userObj)
-            return renderUser(userObj)
+            return renderUserObj(userObj)

@@ -250,8 +250,8 @@ def processRawUserData(user):
     commentsSortedByScore = sorted(user.comments, key=lambda x: x.score)
     user.lowestRatedComment = commentsSortedByScore[0]
     user.topRatedComment = commentsSortedByScore[user.commentCount - 1]
+# Deterime highest and lowest sentiment comment
 
-# Process comment sentiment data.
     commentsWithValidSentiment = 0.0
     commentPairsWithValidSentiment = 0.0
     for comment in user.comments:

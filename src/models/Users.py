@@ -64,17 +64,17 @@ class Users(Model):
             )['Item']
 
             return({
-                'name': u['name'],
+                'name': u['username'],
                 'karma': u['karma'],
                 'lowestRatedComment': u['lowestRatedComment'],
                 'topRatedComment': u['topRatedComment'],
-                'sentimentAverage': u['sentimentAverage'],
-                'sentimentHighestComment': u['sentimentHighestComment'],
-                'sentimentLowestComment': u['sentimentLowestComment'],
                 'sentimentRatios': u['sentimentRatios'],
-                'topSubreddits': u['topSubreddits']
+                'topSubreddits': u['topSubreddits'],
+                'sentimentChangeRatios': u['sentimentChangeRatios'],
+                'dominantSentiment': u['dominantSentiment']
             })
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     def insertUser(self, user: User):
@@ -102,17 +102,17 @@ class Users(Model):
             str(v)) for k, v in topSubreddits.items()}
 
         lowestRated = {
-            'contents' : user.lowestRatedComment.contents,
-            'score' : user.lowestRatedComment.score,
-            'subreddit' : user.lowestRatedComment.subreddit,
-            'sentiment' : user.lowestRatedComment.sentiment,
+            'contents': user.lowestRatedComment.contents,
+            'score': user.lowestRatedComment.score,
+            'subreddit': user.lowestRatedComment.subreddit,
+            'sentiment': user.lowestRatedComment.sentiment,
         }
 
         topRated = {
-            'contents' : user.topRatedComment.contents,
-            'score' : user.topRatedComment.score,
-            'subreddit' : user.topRatedComment.subreddit,
-            'sentiment' : user.topRatedComment.sentiment,
+            'contents': user.topRatedComment.contents,
+            'score': user.topRatedComment.score,
+            'subreddit': user.topRatedComment.subreddit,
+            'sentiment': user.topRatedComment.sentiment,
         }
 
         userToInsert = {
@@ -126,6 +126,5 @@ class Users(Model):
             'sentimentChangeRatios': sentimentChangeRatios,
             'sentimentRatios': sentimentRatios
         }
-        print(userToInsert)
 
         self.table.put_item(Item=userToInsert)
