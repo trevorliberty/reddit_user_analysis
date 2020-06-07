@@ -1,0 +1,35 @@
+<style>
+div#content {
+    display: none;
+    }
+
+div#loading {
+    top: 200 px;
+    margin: auto;
+    position: absolute;
+    z-index: 1000;
+    width: 160px;
+    height: 24px;
+    background: url(loadingimage.gif) no-repeat;
+    cursor: wait;
+    }
+
+</style>
+<div id="loading"></div>
+
+<script type="text/javascript">// <![CDATA[
+        function preloader(){
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("content").style.display = "block";
+        }//preloader
+        window.onload = preloader;
+// ]]></script>
+<div id="content">your html content here.....
+{{name}}
+{{language}}
+{{karma}}
+{% for i in topSubreddits %}
+{{i}}
+{% endfor %}
+{{dominantSentiment}}
+</div>

@@ -290,6 +290,7 @@ def processRawUserData(user):
     commentsSortedByScore = sorted(user.comments, key=lambda x: x.score)
     user.lowestRatedComment = commentsSortedByScore[0]
     user.topRatedComment = commentsSortedByScore[user.commentCount - 1]
+# Deterime highest and lowest sentiment comment
 
     # Determine user's language complexity.
     user.languageComplexity = processLanguageComplexity([comment.contents for comment in user.comments])
