@@ -106,10 +106,10 @@ function run() {
   <div class="container h-100">
     <div class="row align-items-center h-100">
       <div class="col-6 mx-auto">
-        <form class="form-inline my-2 my-lg-0">
+        <div class="form-inline my-2 my-lg-0">
           <span class="big" style="padding-top:.8em;">u/</span><input id="search" class="big form-control mr-sm-2" type="text" aria-label="Search"
             style="width: 400px;">
-        </form>
+        </div>
       </div>
       <!-- Grid column -->
       <div class="col-md-6 mb-lg-0 mb-4">
@@ -118,4 +118,13 @@ function run() {
     </div>
   </div>
 </body>
+<script>
+$( "#search" ).keypress(function( event ) {
+  if(event.which===13){
+    event.preventDefault()
+    username = $(this)[0].value
+    window.location.href=`/api/${username}`
+  }
+})
+</script>
 {%endblock%}
