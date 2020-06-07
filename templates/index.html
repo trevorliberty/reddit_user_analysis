@@ -10,17 +10,13 @@
   <div class="container h-100">
     <div class="row align-items-center h-100">
       <div class="col-6 mx-auto">
+      {% include "search.html" %}
       </div>
       <!-- Grid column -->
       <div class="col-md-6 mb-lg-0 mb-4">
-        <div class="view glow-view">
-        <img src="{{url_for('static', filename='landingimg.svg')}}">
-        </div>
+          <img src="{{url_for('static', filename='snoo.svg')}}">
       </div>
     </div>
   </div>
 </body>
 {%endblock%}
-<style>
-
-</style>
