@@ -4,17 +4,116 @@
 {%endblock%}
 {%block content%}
 {{super()}}
+<style>
+  *::-webkit-input-placeholder {
+    color: #958273 !important;
+    font-size: 120% !important;
+  }
+
+  *:-moz-placeholder {
+    /* FF 4-18 */
+    color: #958273 !important;
+    opacity: 1 !important;
+    font-size: 120% !important;
+  }
+
+  *::-moz-placeholder {
+    /* FF 19+ */
+    color: #958273 !important;
+    opacity: 1 !important;
+    font-size: 120% !important;
+  }
+
+  *:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #958273 !important;
+    font-size: 120% !important;
+  }
+
+  *::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #958273 !important;
+    font-size: 120% !important;
+  }
+
+  *::placeholder {
+    /* modern browser */
+    color: #958273 !important;
+    font-size: 120% !important;
+  }
+  .big {
+    font-size:250%;
+  }
+</style>
+<script>
+// Add something to given element placeholder
+function addToPlaceholder(toAdd, el) {
+    el.attr('placeholder', el.attr('placeholder') + toAdd);
+    // Delay between symbols "typing" 
+    return new Promise(resolve => setTimeout(resolve, 100));
+}
+
+// Clear placeholder attribute in given element
+function clearPlaceholder(el) {
+    el.attr("placeholder", "");
+}
+
+// Print one phrase
+function printPhrase(phrase, el) {
+    return new Promise(resolve => {
+        // Clear placeholder before typing next phrase
+        clearPlaceholder(el);
+        let letters = phrase.split('');
+        // For each letter in phrase
+        letters.reduce(
+            (promise, letter, index) => promise.then(_ => {
+                // Resolve promise when all letters are typed
+                if (index === letters.length - 1) {
+                    // Delay before start next phrase "typing"
+                    setTimeout(resolve, 1000);
+                }
+                return addToPlaceholder(letter, el);
+            }),
+            Promise.resolve()
+        );
+    });
+} 
+
+// Print given phrases to element
+function printPhrases(phrases, el) {
+    phrases.reduce(
+        (promise, phrase) => promise.then(_ => printPhrase(phrase, el)), 
+        Promise.resolve()
+    );
+}
+
+// Start typing
+function run() {
+    let phrases = [
+        "spez",
+        "kn0thing",
+        "rogersimon10",
+        "Unidan"
+    ];
+
+    printPhrases(phrases, $('#search'));
+}
+</script>
 
 
-<body style="background-color: #737995">
+
+<body style="background-color: #737995" onload=run()>
   <div class="container h-100">
     <div class="row align-items-center h-100">
       <div class="col-6 mx-auto">
-      {% include "search.html" %}
+        <form class="form-inline my-2 my-lg-0" >
+          <span class="big" style="padding-top:.8em;">u/</span><input id="search" class="big form-control mr-sm-2" type="text" aria-label="Search"
+            style="width: 400px;">
+        </form>
       </div>
       <!-- Grid column -->
       <div class="col-md-6 mb-lg-0 mb-4">
-          <img src="{{url_for('static', filename='snoo.svg')}}">
+        <img src="{{url_for('static', filename='snoo.svg')}}">
       </div>
     </div>
   </div>
