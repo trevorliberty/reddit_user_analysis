@@ -2,6 +2,9 @@ from .Model import Model
 import boto3
 import json
 from boto3.dynamodb.conditions import Key
+from decimal import Decimal, localcontext
+from src.controllers.processUser import User
+import math
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -53,16 +56,13 @@ class Users(Model):
         :raises: Databse errors on connection and insertion
         """
 
-        u = self.table.get_item(
-            TableName='users',
-            Key={
-                'string': {
-                    'S': userName
+        try:
+            u = self.table.get_item(
+                Key={
+                    'username': userName
                 }
-            }
-        )['Item']
+            )['Item']
 
-        if(u is not None):
             return({
                 'name': u['name'],
                 'karma': u['karma'],
@@ -74,9 +74,10 @@ class Users(Model):
                 'sentimentRatios': u['sentimentRatios'],
                 'topSubreddits': u['topSubreddits']
             })
-        return None
+        except:
+            return False
 
-    def insertUser(self, user):
+    def insertUser(self, user: User):
         """
         Inserts proccessed user information into the database for future access.
         :param user: user object with proccessed fields
@@ -84,16 +85,36 @@ class Users(Model):
         :raises: Databse errors on connection and insertion
         """
 
+        sentimentRatios = vars(user.sentimentRatios)
+        sentimentRatios = {k: Decimal(str(v))
+                           for k, v in sentimentRatios.items()}
+
+        sentimentChangeRatios = vars(user.sentimentChangeRatios)
+        sentimentChangeRatios = {k: Decimal(
+            str(v)) for k, v in sentimentChangeRatios.items()}
+
+        topSubreddits = {}
+
+        for i in user.topSubreddits:
+            topSubreddits.update(i)
+
+        topSubreddits = {k: Decimal(
+            str(v)) for k, v in topSubreddits.items()}
+
+        lowestRated = user.lowestRatedComment.contents
+        topRated = user.topRatedComment.contents
+
         userToInsert = {
-            'name': user.name,
+            'username': user.name,
             'language': user.language,
             'karma': user.karma,
-            'topSubreddits': user.topSubreddits,
+            'topSubreddits': topSubreddits,
             'dominantSentiment': user.dominantSentiment,
-            'lowestRatedComment': user.lowestRatedComment,
-            'topRatedComment': user.topRatedComment,
-            'sentimentChangeRatios': user.sentimentChangeRatios,
-            'sentimentRatios': user.sentimentRatios,
+            'lowestRatedComment': lowestRated,
+            'topRatedComment': topRated,
+            'sentimentChangeRatios': sentimentChangeRatios,
+            'sentimentRatios': sentimentRatios
         }
+        print(userToInsert)
 
         self.table.put_item(Item=userToInsert)

@@ -7,32 +7,32 @@ from .processUser import processUser, User
 def renderUser(user):
     return render_template(
         'index.html',
-        name = user.name,
-        language = user.language,
-        karma = user.karma,
-        topSubreddits = user.topSubreddits,
-        dominantSentiment = user.dominantSentiment,
-        lowestRatedComment = user.lowestRatedComment.contents,
-        topRatedComment = user.topRatedComment.contents,
-        sentimentChangeRatios = {
-            'positiveToNegative' : user.sentimentChangeRatios.positiveToNegative ,
-            'positiveToNeutral' : user.sentimentChangeRatios.positiveToNeutral,
-            'positiveToMixed' : user.sentimentChangeRatios.positiveToMixed ,
-            'negativeToPositive' : user.sentimentChangeRatios.negativeToPositive ,
-            'negativeToNeutral' : user.sentimentChangeRatios.negativeToNeutral,
-            'negativeToMixed' : user.sentimentChangeRatios.negativeToMixed ,
-            'neutralToPositive' : user.sentimentChangeRatios.neutralToPositive ,
-            'neutralToPositive' : user.sentimentChangeRatios.neutralToPositive ,
-            'neutralToMixed' : user.sentimentChangeRatios.neutralToMixed ,
-            'mixedToPositive' : user.sentimentChangeRatios.mixedToPositive ,
-            'mixedToNegative' : user.sentimentChangeRatios.mixedToNegative ,
-            'mixedToNeutral' : user.sentimentChangeRatios.mixedToNeutral ,
+        name=user.name,
+        language=user.language,
+        karma=user.karma,
+        topSubreddits=user.topSubreddits,
+        dominantSentiment=user.dominantSentiment,
+        lowestRatedComment=user.lowestRatedComment.contents,
+        topRatedComment=user.topRatedComment.contents,
+        sentimentChangeRatios={
+            'positiveToNegative': user.sentimentChangeRatios.positiveToNegative,
+            'positiveToNeutral': user.sentimentChangeRatios.positiveToNeutral,
+            'positiveToMixed': user.sentimentChangeRatios.positiveToMixed,
+            'negativeToPositive': user.sentimentChangeRatios.negativeToPositive,
+            'negativeToNeutral': user.sentimentChangeRatios.negativeToNeutral,
+            'negativeToMixed': user.sentimentChangeRatios.negativeToMixed,
+            'neutralToPositive': user.sentimentChangeRatios.neutralToPositive,
+            'neutralToPositive': user.sentimentChangeRatios.neutralToPositive,
+            'neutralToMixed': user.sentimentChangeRatios.neutralToMixed,
+            'mixedToPositive': user.sentimentChangeRatios.mixedToPositive,
+            'mixedToNegative': user.sentimentChangeRatios.mixedToNegative,
+            'mixedToNeutral': user.sentimentChangeRatios.mixedToNeutral,
         },
-        sentimentRatios = {
-            'positive' : user.sentimentRatios.positive,
-            'negative' : user.sentimentRatios.negative,
-            'neutral' : user.sentimentRatios.neutral,
-            'mixed' : user.sentimentRatios.mixed
+        sentimentRatios={
+            'positive': user.sentimentRatios.positive,
+            'negative': user.sentimentRatios.negative,
+            'neutral': user.sentimentRatios.neutral,
+            'mixed': user.sentimentRatios.mixed
         },
     )
 

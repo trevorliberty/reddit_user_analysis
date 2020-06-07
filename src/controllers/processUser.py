@@ -244,7 +244,7 @@ def processRawUserData(user):
     c = c.most_common(3)
     for subreddit in c:
         user.topSubreddits.append(
-            {subreddit[0], subreddit[1]/user.commentCount})
+            {subreddit[0]: subreddit[1]/user.commentCount})
 
 # Determine best and worst rated comment
     commentsSortedByScore = sorted(user.comments, key=lambda x: x.score)
@@ -348,4 +348,3 @@ def processUser(username):
         return user
     else:
         return 404
-
