@@ -49,7 +49,7 @@ class Users(Model):
         """
         Retrieves the user from database.
         :param userName: name of the user to be retrieved
-        :returns: undefined if the user is not found in the database. User object if it is.
+        :returns: None if the user is not found in the database. User object if it is.
         :raises: Databse errors on connection and insertion
         """
 
@@ -74,6 +74,7 @@ class Users(Model):
                 'sentimentRatios': u['sentimentRatios'],
                 'topSubreddits': u['topSubreddits']
             })
+        return None
 
     def insertUser(self, user):
         """
@@ -85,15 +86,14 @@ class Users(Model):
 
         userToInsert = {
             'name': user.name,
+            'language': user.language,
             'karma': user.karma,
+            'topSubreddits': user.topSubreddits,
+            'dominantSentiment': user.dominantSentiment,
             'lowestRatedComment': user.lowestRatedComment,
             'topRatedComment': user.topRatedComment,
-            'sentimentAverage': user.sentimentAverage,
-            'sentimentHighestComment': user.sentimentHighestComment,
-            'sentimentLowestComment': user.sentimentLowestComment,
+            'sentimentChangeRatios': user.sentimentChangeRatios,
             'sentimentRatios': user.sentimentRatios,
-            'topSubreddits': user.topSubreddits,
-
         }
 
         self.table.put_item(Item=userToInsert)

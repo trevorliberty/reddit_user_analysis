@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = 'secret_key'
 fa = FontAwesome(app)
 
-app.add_url_rule('/api/<redditusername>',
+app.add_url_rule('/api/<username>',
                  view_func=User.as_view('user'),
                  methods=['GET', 'POST'])
 
