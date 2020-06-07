@@ -118,6 +118,7 @@ class Users(Model):
         userToInsert = {
             'username': user.name,
             'language': user.language,
+            'languageComplexity': Decimal(str(user.languageComplexity)),
             'karma': user.karma,
             'topSubreddits': topSubreddits,
             'dominantSentiment': user.dominantSentiment,

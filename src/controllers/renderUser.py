@@ -7,24 +7,25 @@ from .processUser import processUser, User
 def renderUser(user):
     return render_template(
         'index.html',
-        name=user.name,
-        language=user.language,
-        karma=user.karma,
-        topSubreddits=user.topSubreddits,
-        dominantSentiment=user.dominantSentiment,
-        lowestRatedComment= {
+        name = user.name,
+        language = user.language,
+        karma = user.karma,
+        languageComplexity = user.languageComplexity,
+        topSubreddits = user.topSubreddits,
+        dominantSentiment = user.dominantSentiment,
+        lowestRatedComment = {
             'contents' : user.lowestRatedComment.contents,
             'score' : user.lowestRatedComment.score,
             'subreddit' : user.lowestRatedComment.subreddit,
             'sentiment' : user.lowestRatedComment.sentiment,
         },
-        topRatedComment= {
+        topRatedComment = {
             'contents' : user.topRatedComment.contents,
             'score' : user.topRatedComment.score,
             'subreddit' : user.topRatedComment.subreddit,
             'sentiment' : user.topRatedComment.sentiment,
         },
-        sentimentChangeRatios={
+        sentimentChangeRatios = {
             'positiveToNegative': user.sentimentChangeRatios.positiveToNegative,
             'positiveToNeutral': user.sentimentChangeRatios.positiveToNeutral,
             'positiveToMixed': user.sentimentChangeRatios.positiveToMixed,
@@ -38,7 +39,7 @@ def renderUser(user):
             'mixedToNegative': user.sentimentChangeRatios.mixedToNegative,
             'mixedToNeutral': user.sentimentChangeRatios.mixedToNeutral,
         },
-        sentimentRatios={
+        sentimentRatios = {
             'positive': user.sentimentRatios.positive,
             'negative': user.sentimentRatios.negative,
             'neutral': user.sentimentRatios.neutral,

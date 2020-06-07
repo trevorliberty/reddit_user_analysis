@@ -2,6 +2,7 @@ from src.apis.praw import instantiate
 from src.apis.textAnalysis import getLanguage, getSentiment, getComplexity
 from collections import Counter
 import random
+import re
 """
 Contains functionality for querying and processing reddit user information.
 """
@@ -118,6 +119,7 @@ class User():
         self.commentCount = 0
 
         # Processed data (extracted from raw data):
+        self.languageComplexity = -1.0
         self.topSubreddits = []
         self.dominantSentiment = "UNDEFINED"
         self.lowestRatedComment = Comment()
@@ -231,6 +233,44 @@ def generateUserWithRawData(prawData, username) -> User:
     return constructedUser
 
 
+def processLanguageComplexity(comments):
+    """
+    Determines user's language complexity score by analyzing a poriton of their comments and taking the average.
+
+    :param comments: List of comments whose complexity is to be analyzed.
+    :returns: Calculated complexity of the user (1-10). -1 If the complexity was not able to be calculated for any reason.
+    """
+
+    # Filter out comments that are compliant with API requirements. 
+    validComments = []
+    for comment in comments:
+        commentWordCount = len(re.findall(r'\w+', comment)) 
+        commentCharCount = len(comment)
+        if commentWordCount <= 200 and commentCharCount <= 3000:
+            validComments.append(comment)
+
+    # Determine the amount of comments to be processed (as many as possible between 10 and 40)
+    commentCountToProcess = 0
+    validCommentCount = len(validComments)
+    if(validCommentCount < 10): # No Point in analyzing less than 10 comments
+        return -1.0
+    elif(validCommentCount >= 40):
+        commentCountToProcess = 40
+    else:
+        commentCountToProcess = validCommentCount
+        
+    # Create a random range of indexes of size commentCountToProcess within the validCommentCount range and calculate the complexity average for the comments at those indexes.
+    commentRandomIndexList = random.sample(range(validCommentCount), commentCountToProcess)
+    complexityAccumulator = 0
+    validComplexityCount = 0
+    for index in commentRandomIndexList:
+        calculatedComplexity = getComplexity(validComments[index])
+        if(calculatedComplexity > 0):
+            complexityAccumulator += calculatedComplexity
+            validComplexityCount += 1
+    return complexityAccumulator / validComplexityCount
+    
+
 def processRawUserData(user):
     """
     Accepts a user with filled in 'raw data' fields, processes them and fills in 'processed data' fields.
@@ -238,7 +278,7 @@ def processRawUserData(user):
     :param user: User object with filled in 'raw data'
     :returns: User with all data filled in.
     """
-# Determine favorite subreddits with ratio of all comments posted on each one.
+    # Determine favorite subreddits with ratio of all comments posted on each one.
     subreddits = [c.subreddit for c in user.comments]
     c = Counter(subreddits)
     c = c.most_common(3)
@@ -246,12 +286,15 @@ def processRawUserData(user):
         user.topSubreddits.append(
             {subreddit[0]: subreddit[1]/user.commentCount})
 
-# Determine best and worst rated comment
+    # Determine best and worst rated comment.
     commentsSortedByScore = sorted(user.comments, key=lambda x: x.score)
     user.lowestRatedComment = commentsSortedByScore[0]
     user.topRatedComment = commentsSortedByScore[user.commentCount - 1]
 
-# Process comment sentiment data.
+    # Determine user's language complexity.
+    user.languageComplexity = processLanguageComplexity([comment.contents for comment in user.comments])
+
+    # Process comment sentiment data.
     commentsWithValidSentiment = 0.0
     commentPairsWithValidSentiment = 0.0
     for comment in user.comments:
