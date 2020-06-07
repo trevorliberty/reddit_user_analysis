@@ -103,7 +103,9 @@ function run() {
 
 
 <body style="background-color: #737995" onload=run()>
-  <div class="container h-100">
+
+  {% include "loading.html" %}
+  <div id="contents"class="container h-100">
     <div class="row align-items-center h-100">
       <div class="col-6 mx-auto">
         <div class="form-inline my-2 my-lg-0">
@@ -124,6 +126,8 @@ $( "#search" ).keypress(function( event ) {
     event.preventDefault()
     username = $(this)[0].value
     window.location.href=`/api/${username}`
+    $('#contents').hide();
+    $('#loading').show();
   }
 })
 </script>
