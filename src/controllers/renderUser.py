@@ -4,7 +4,19 @@ import src.models as models
 from .processUser import processUser, User
 
 
+def fixSubreddits(subreddits):
+    d = {"POSTIVE", "NEGATIVE", "NEUTRAL", "MIXED"}
+    for v in subreddits.items():
+        for va, val in v['sentimentCounts'][0]:
+            for d_ in d:
+                if d_ not in va:
+                    va[d] = 0
+
+    print(subreddits)
+
+
 def renderUser(user):
+    subreddits = fixSubreddits(user['subreddits'])
     for k, v in user.items():
         print(k)
     return render_template(
@@ -51,7 +63,8 @@ def renderUser(user):
             'mixedToNeutral': user['sentimentChangeRatios']['mixedToNeutral'],
             'mixedToMixed': user['sentimentChangeRatios']['mixedToMixed'],
         },
-        dominantSentiment=user['dominantSentiment']
+        dominantSentiment=user['dominantSentiment'],
+        subreddits=user['subreddits']
     )
 
 
@@ -100,6 +113,7 @@ def renderUserObj(user):
             'neutral': user.sentimentRatios.neutral,
             'mixed': user.sentimentRatios.mixed
         },
+        subreddits=user.subreddits
     )
 
 

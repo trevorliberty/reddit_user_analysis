@@ -3,6 +3,8 @@ from src.apis.textAnalysis import getLanguage, getSentiment, getComplexity
 from collections import Counter
 import random
 import re
+from functools import reduce
+
 """
 Contains functionality for querying and processing reddit user information.
 """
@@ -83,12 +85,13 @@ class User():
 
         # Processed data (extracted from raw data):
         self.languageComplexity = -1.0
-        self.topSubreddits = []
+        self.topSubreddits = None
         self.dominantSentiment = "UNDEFINED"
         self.lowestRatedComment = Comment()
         self.topRatedComment = Comment()
         self.sentimentChangeRatios = SentimentChangeRatios()
         self.sentimentRatios = SentimentRatios()
+        self.subreddits = {}
 
 
 def guessUserLanguage(comments):
@@ -166,9 +169,32 @@ def generateUserWithRawData(prawData, username) -> User:
             sentiment=commentSentiment,
             score=comment['score'],
             contents=comment['body'],
-            parent=parentObj,
         )
+        if constructedUser.subreddits:
+            try:
+                dictVal = constructedUser.subreddits[commentObj.subreddit]
+                dictVal.append(
+                    {
+                        'sentiment': commentSentiment,
+                        'score': comment['score'],
+                    }
+                )
+            except:
+                constructedUser.subreddits[commentObj.subreddit] = [
+                    {
+                        'sentiment': commentSentiment,
+                        'score': comment['score'],
+                    }]
+        else:
+            constructedUser.subreddits = {
+                comment['subreddit']: [
+                    {
+                        'sentiment': commentSentiment,
+                        'score': comment['score'],
+                    }
+                ]}
 
+        commentObj.parent = parentObj
         constructedUser.comments.append(commentObj)
 
     return constructedUser
@@ -213,6 +239,21 @@ def processLanguageComplexity(comments):
     return complexityAccumulator / validComplexityCount
 
 
+def processSubreddits(subreddits, user):
+    processed = {}
+    for k, v in subreddits.items():
+        sentimentCounts = Counter(x['sentiment'] for x in v)
+        numComments = len(v)
+        avgScore = float(sum(d['score'] for d in v)) / numComments
+        print(avgScore)
+        processed[k] = {
+            'sentimentCounts': dict(sentimentCounts),
+            'numComments': numComments,
+            'avgScore': avgScore
+        }
+    return processed
+
+
 def processRawUserData(user):
     """
     Accepts a user with filled in 'raw data' fields, processes them and fills in 'processed data' fields.
@@ -222,12 +263,19 @@ def processRawUserData(user):
     """
     # Determine favorite subreddits with ratio of all comments posted on each one.
     subreddits = [c.subreddit for c in user.comments]
-    c = Counter(subreddits)
-    c = c.most_common(3)
+    c = Counter(sr for sr in subreddits)
+    c = c.most_common(5)
+    dc = dict(c)
+    # list comprehension
+    subreddits = {k: v for (k, v) in user.subreddits.items() if k in dc}
     for subreddit in c:
-        user.topSubreddits.append(
-            {subreddit[0]: subreddit[1]/user.commentCount})
+        if user.topSubreddits:
+            user.topSubreddits.update(
+                {subreddit[0]: subreddit[1]/user.commentCount})
+        else:
+            user.topSubreddits = {subreddit[0]: subreddit[1]/user.commentCount}
 
+    user.subreddits = processSubreddits(subreddits, user)
     # Determine best and worst rated comment.
     commentsSortedByScore = sorted(user.comments, key=lambda x: x.score)
     user.lowestRatedComment = commentsSortedByScore[0]
