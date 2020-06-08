@@ -67,6 +67,7 @@ class Users(Model):
                 'name': u['username'],
                 'karma': u['karma'],
                 'lowestRatedComment': u['lowestRatedComment'],
+                'languageComplexity' : u['languageComplexity'],
                 'topRatedComment': u['topRatedComment'],
                 'sentimentRatios': u['sentimentRatios'],
                 'topSubreddits': u['topSubreddits'],
@@ -118,6 +119,7 @@ class Users(Model):
         userToInsert = {
             'username': user.name,
             'language': user.language,
+            'languageComplexity': Decimal(str(user.languageComplexity)),
             'karma': user.karma,
             'topSubreddits': topSubreddits,
             'dominantSentiment': user.dominantSentiment,

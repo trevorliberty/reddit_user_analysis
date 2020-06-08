@@ -2,6 +2,7 @@ import boto3
 import re
 import requests
 import random
+import os
 
 client = boto3.client('comprehend')
 
@@ -14,7 +15,6 @@ def getLanguage(textData):
     :raises: Nothing (all exceptions are caught and 'UNDEFINED' is returned if something goes wrong).
     """
 
-    """
     if len(textData) < 20 or len(textData.encode('utf-8')) > 5000:
         return 'UNDEFINED'
 
@@ -24,8 +24,6 @@ def getLanguage(textData):
         )['Languages'][0]['LanguageCode']
     except:
         return 'UNDEFINED'
-    """
-    return 'en'
 
 
 def getSentiment(textData, language="UNDEFINED"):
@@ -40,9 +38,8 @@ def getSentiment(textData, language="UNDEFINED"):
     :raises: Nothing (all exceptions are caught and 'UNDEFINED' is returned as the default)
     """
 
-    """
     if language == "UNDEFINED":
-        language = detectLanguage(textData)
+        language = getLanguage(textData)
 
     if language in ['hi', 'de', 'zh-TW', 'ko', 'pt', 'en', 'it', 'fr', 'zh', 'es', 'ar', 'ja'] and len(textData.encode('utf-8')) < 5000:
         try:
@@ -55,8 +52,6 @@ def getSentiment(textData, language="UNDEFINED"):
             return 'UNDEFINED'
     else:
         return 'UNDEFINED'
-    """
-    return ['POSITIVE', 'NEGATIVE', 'NEUTRAL', 'MIXED'][random.randint(0, 3)]
 
 
 def getComplexity(textData):
@@ -69,8 +64,7 @@ def getComplexity(textData):
     :returns: Complexity score on a scale of 1 to 10 where 1 is least complex and 10 is most complex. If unable to process for whatever reason, returns -1.
     :raises: Nothing, -1 is returned if something fails.
     """
-
-    """
+    key = os.environ['rapidapi_key']
     url = "https://twinword-language-scoring.p.rapidapi.com/text/"
 
     wordCount = len(re.findall(r'\w+', textData)) 
@@ -89,5 +83,3 @@ def getComplexity(textData):
             return -1
     else:
         return -1
-    """
-    return random.randint(-1, 10)

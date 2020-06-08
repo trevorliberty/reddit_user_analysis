@@ -14,6 +14,7 @@ def renderUser(user):
         # language=user['language'],
         karma=user['karma'],
         topSubreddits=user['topSubreddits'],
+        languageComplexity = user['languageComplexity'],
         # dominantSentiment=user['dominantSentiment'],
         lowestRatedComment={
             'contents': user['lowestRatedComment']['contents'],
@@ -59,6 +60,7 @@ def renderUserObj(user):
         karma=user.karma,
         topSubreddits=user.topSubreddits,
         dominantSentiment=user.dominantSentiment,
+        languageComplexity = user.languageComplexity,
         lowestRatedComment={
             'contents': user.lowestRatedComment.contents,
             'score': user.lowestRatedComment.score,
@@ -71,7 +73,7 @@ def renderUserObj(user):
             'subreddit': user.topRatedComment.subreddit,
             'sentiment': user.topRatedComment.sentiment,
         },
-        sentimentChangeRatios={
+        sentimentChangeRatios = {
             'positiveToNegative': user.sentimentChangeRatios.positiveToNegative,
             'positiveToNeutral': user.sentimentChangeRatios.positiveToNeutral,
             'positiveToMixed': user.sentimentChangeRatios.positiveToMixed,
@@ -85,7 +87,7 @@ def renderUserObj(user):
             'mixedToNegative': user.sentimentChangeRatios.mixedToNegative,
             'mixedToNeutral': user.sentimentChangeRatios.mixedToNeutral,
         },
-        sentimentRatios={
+        sentimentRatios = {
             'positive': user.sentimentRatios.positive,
             'negative': user.sentimentRatios.negative,
             'neutral': user.sentimentRatios.neutral,
