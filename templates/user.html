@@ -19,16 +19,16 @@
       <i class="fas fa-times sidenav__brand-close"></i>
     </div>
     <ul class="sidenav__list">
-      <a href="/" style="padding:3em;""><img src=" {{url_for('static', filename='exit.svg')}}"style="width:2em;"></a>
+      <a href="/" style="padding:3em;"><img src=" {{url_for('static', filename='exit.svg')}}"style="width:2em;"></a>
       <div class="list-group" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action active" id="list-dashboard-list" data-toggle="list"
           href="#list-dashboard" role="tab" aria-controls="dashboard">Dashboard</a>
-        <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile"
-          role="tab" aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
-          href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-          href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+
+        <a class="list-group-item list-group-item-action" id="list-comments-list" data-toggle="list" href="#list-comments"
+          role="tab" aria-controls="comments">Comments</a>
+
+        <a class="list-group-item list-group-item-action" id="list-subreddits-list" data-toggle="list"
+          href="#list-subreddits" role="tab" aria-controls="subreddits">Subreddits</a>
       </div>
     </ul>
   </aside>
@@ -36,40 +36,30 @@
     <div class="main-header">
       <h1>u/{{name}}</h1>
     </div>
-    <div id="dashboard">
-      <div class="tab-pane fade show active" id="list-dashboard" role="tabpanel" aria-labelledby="list-dashboard-list"
-        style="display:block" active="true">
-        <div class="main-cards">
-          <div class="card">
-            {% with labels=sentimentRatios.keys(), values=sentimentRatios.values(), title='Sentiment Ratios', max=50%}
-            {% include "barchart.html" %}
-            {% endwith %}
-          </div>
-          <div class="card">Card</div>
-          <div class="card">Card</div>
-        </div>
-      </div>
+    <div class="tab-pane fade show active" id="list-dashboard" role="tabpanel" aria-labelledby="list-dashboard-list"
+      style="display:block" active="true">
+      {% include "userComponentDashboard.html" %}
     </div>
-    <div id="profile">
-      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list"
-        style="display: none" active="false">
-        <div class="card">Card</div>
-      </div>
+    <div class="tab-pane fade" id="list-comments" role="tabpanel" aria-labelledby="list-comments-list"
+      style="display: none" active="false">
+     {% include "userComponentComments.html" %} 
     </div>
-</div>
-</main>
+    <div class="tab-pane fade" id="list-subreddits" role="tabpanel" aria-labelledby="list-subreddits-list"
+      style="display: none" active="false">
+     {% include "userComponentSubreddits.html" %} 
+    </div>
+  </main>
 </div>
 <script>
-  var dashboard = $('#list-dashboard')
-  var profile = $('#list-profile')
-  $("#list-profile-list").click(()=>{
-    console.log('test')
+  $("#list-comments-list").click(() => {
     $('#list-dashboard').hide();
-    $('#list-profile').show();
+    $('#list-subreddits').hide();
+    $('#list-comments').show();
   })
-  $('#list-dashboard-list').click(()=>{
+  $('#list-dashboard-list').click(() => {
     $('#list-dashboard').show();
-    $('#list-profile').hide();
+    $('#list-comments').hide();
+    $('#list-subreddits').hide();
   })
   //curractive= $('.tab-pane.active')
   //$('.tab-pane.active').show()
