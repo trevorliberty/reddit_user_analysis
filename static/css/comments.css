@@ -1,0 +1,26 @@
+.main-cards-comments {
+    column-count: 2;
+    margin: 20px !important;
+}
+
+.left-card {
+    padding-left: 0px;
+}
+
+.right-card {
+    padding-right: 0px;
+}
+
+.main-cards-comments .card-header {
+    border-bottom: 0px;
+}
+
+.main-cards-comments .card {
+    height: 40rem !important;
+}
+
+.main-cards-comments .contents {
+    margin-top: 3rem;
+    font-style: italic;
+    font-size: 1.1rem;
+}
