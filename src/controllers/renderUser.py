@@ -47,7 +47,8 @@ def renderUser(user):
             'mixedToNegative': user['sentimentChangeRatios']['mixedToNegative'],
             'mixedToNeutral': user['sentimentChangeRatios']['mixedToNeutral'],
         },
-        dominantSentiment=user['dominantSentiment']
+        dominantSentiment=user['dominantSentiment'],
+        subreddits=user['subreddits']
     )
 
 
@@ -92,6 +93,7 @@ def renderUserObj(user):
             'neutral': user.sentimentRatios.neutral,
             'mixed': user.sentimentRatios.mixed
         },
+        subreddits=user.subreddits
     )
 
 
