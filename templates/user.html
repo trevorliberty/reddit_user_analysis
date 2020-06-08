@@ -29,6 +29,9 @@
 
         <a class="list-group-item list-group-item-action" id="list-subreddits-list" data-toggle="list"
           href="#list-subreddits" role="tab" aria-controls="subreddits">Subreddits</a>
+
+        <a class="list-group-item list-group-item-action" id="list-sentiment-list" data-toggle="list"
+          href="#list-sentiment" role="tab" aria-controls="sentiment">Sentiment</a>
       </div>
     </ul>
   </aside>
@@ -48,23 +51,36 @@
       style="display: none" active="false">
      {% include "userComponentSubreddits.html" %} 
     </div>
+    <div class="tab-pane fade" id="list-sentiment" role="tabpanel" aria-labelledby="list-sentiment-list"
+      style="display: none" active="false">
+     {% include "userComponentSentiment.html" %} 
+    </div>
   </main>
 </div>
 <script>
   $("#list-comments-list").click(() => {
+    $('#list-sentiment').hide();
     $('#list-dashboard').hide();
     $('#list-subreddits').hide();
     $('#list-comments').show();
   })
   $('#list-dashboard-list').click(() => {
-    $('#list-dashboard').show();
+    $('#list-sentiment').hide();
     $('#list-comments').hide();
     $('#list-subreddits').hide();
+    $('#list-dashboard').show();
   })
   $('#list-subreddits-list').click(() => {
-    $('#list-subreddits').show();
+    $('#list-sentiment').hide();
     $('#list-dashboard').hide();
     $('#list-comments').hide();
+    $('#list-subreddits').show();
+  })
+  $('#list-sentiment-list').click(() => {
+    $('#list-dashboard').hide();
+    $('#list-comments').hide();
+    $('#list-subreddits').hide();
+    $('#list-sentiment').show();
   })
 </script>
 {% endblock  %}

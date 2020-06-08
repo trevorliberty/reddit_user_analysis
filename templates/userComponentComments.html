@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <link rel="stylesheet" href="{{ url_for('static', filename='/css/comments.css') }}">
 
 <div class="row main-cards-comments">
@@ -93,22 +91,23 @@
                 </div>
                 <div class="contents">
                     <p class="contents-body">"{{lowestRatedComment.contents}}"</p>
-                    <p class="contents-signature" style="text-align:right; font-weight:bold; padding: right 1rem; padding-right:5rem;">-
+                    <p class="contents-signature"
+                        style="text-align:right; font-weight:bold; padding: right 1rem; padding-right:5rem;">-
                         u/{{name}}</p>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        let leftLength = $(".left-card .contents").text().length
-        let leftSize = 400 * Math.pow(leftLength, -.4557)
-        $(".left-card .contents-body").css("font-size", leftSize)
-        $(".left-card .contents-signature").css("font-size", leftSize * 1.5)
+<script>
+    let leftLength = $(".left-card .contents").text().length
+    let leftSize = 400 * Math.pow(leftLength, -.4557)
+    $(".left-card .contents-body").css("font-size", leftSize)
+    $(".left-card .contents-signature").css("font-size", leftSize * 1.5)
 
-        let rightLength = $(".right-card .contents").text().length
-        let rightSize = 400 * Math.pow(rightLength, -.4557)
-        $(".right-card .contents-body").css("font-size", rightSize)
-        $(".right-card .contents-signature").css("font-size", rightSize * 1.5)
-    </script>
->>>>>>> e378ebe4a197e6d0f6fa6bc7077ceb89da2669c3
+    let rightLength = $(".right-card .contents").text().length
+    let rightSize = 400 * Math.pow(rightLength, -.4557)
+    $(".right-card .contents-body").css("font-size", rightSize)
+    $(".right-card .contents-signature").css("font-size", rightSize * 1.5)
+</script>
