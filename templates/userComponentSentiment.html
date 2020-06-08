@@ -1,7 +1,7 @@
 <div class="main-cards">
-            <div class="card">
-                {% with labels=sentimentRatios.keys(), values=sentimentRatios.values(), title='Sentiment Ratios', max=50%}
-                {% include "barchart2.html" %}
-                {% endwith %}
-            </div>
+    <div class="card">
+        {% with labels=sentimentRatios.keys(), values=sentimentRatios.values(), title='Sentiment Ratios', max=50%}
+        {% include "barchart3.html" %}
+        {% endwith %}
+    </div>
 </div>

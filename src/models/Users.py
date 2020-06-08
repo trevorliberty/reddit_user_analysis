@@ -67,10 +67,11 @@ class Users(Model):
                 'name': u['username'],
                 'karma': u['karma'],
                 'lowestRatedComment': u['lowestRatedComment'],
-                'languageComplexity' : u['languageComplexity'],
+                'languageComplexity': u['languageComplexity'],
                 'topRatedComment': u['topRatedComment'],
                 'sentimentRatios': u['sentimentRatios'],
                 'topSubreddits': u['topSubreddits'],
+                'subreddits': u['subreddits'],
                 'sentimentChangeRatios': u['sentimentChangeRatios'],
                 'dominantSentiment': u['dominantSentiment']
             })
@@ -94,14 +95,12 @@ class Users(Model):
         sentimentChangeRatios = {k: Decimal(
             str(v)) for k, v in sentimentChangeRatios.items()}
 
-        topSubreddits = {}
-
-        for i in user.topSubreddits:
-            topSubreddits.update(i)
+        topSubreddits = user.topSubreddits
 
         topSubreddits = {k: Decimal(
             str(v)) for k, v in topSubreddits.items()}
 
+        subreddits = {k: Decimal(str(v)) for k, v in user.subreddits.items()}
         lowestRated = {
             'contents': user.lowestRatedComment.contents,
             'score': user.lowestRatedComment.score,
@@ -126,7 +125,8 @@ class Users(Model):
             'lowestRatedComment': lowestRated,
             'topRatedComment': topRated,
             'sentimentChangeRatios': sentimentChangeRatios,
-            'sentimentRatios': sentimentRatios
+            'sentimentRatios': sentimentRatios,
+            'subreddits': subreddits
         }
 
         self.table.put_item(Item=userToInsert)

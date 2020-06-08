@@ -1,12 +1,10 @@
 <div class="main-cards">
-    <div class="card">
+    <div class="card h-100"style="position:relative;">
         {% with data=sentimentRatios.items()%}
         {% include "barchart2.html" %}
         {% endwith %}
     </div>
         <div class="row">
-            <div class="col">
-            </div>
             <div class="col">
                 <div class="card">
                     <h5 class="card-title">Top Subreddits</h5>
@@ -15,8 +13,6 @@
                     <h5 class="card-text">
                     r/{{subreddit}}
                     </h5>
-                    <hr>
-                    <hr>
                     <hr>
                     {% endfor %}
                 </div>
