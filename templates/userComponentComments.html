@@ -1,0 +1,114 @@
+<<<<<<< HEAD
+=======
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/comments.css') }}">
+
+<div class="row main-cards-comments">
+
+    <!-- Top Rated Card -->
+    <div class="col-sm-6 left-card">
+        <div class="card">
+            <div class="card-header">
+                <h2>Top Rated</h2>
+            </div>
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-sm d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <h4>Subreddit</h4>
+                            </div>
+                            <div class="row justify-content-center">
+                                <h5>r/{{topRatedComment.subreddit}}</h5>
+                            </div>
+                        </div>
+
+                        <div class="col-sm d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <h4>Score</h4>
+                            </div>
+                            <div class="row justify-content-center">
+                                <h5>{{topRatedComment.score}}</h5>
+                            </div>
+                        </div>
+
+                        <div class="col-sm d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <h4>Sentiment</h4>
+                            </div>
+                            <div class="row justify-content-center">
+                                <h5>{{topRatedComment.sentiment}}</h5>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="contents">
+                    <p class="contents-body">"{{topRatedComment.contents}}"</p>
+                    <p class="contents-signature" style="text-align:right; font-weight:bold; padding-right:5rem;">-
+                        u/{{name}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lowest Rated Card -->
+    <div class="col-sm-6 right-card">
+        <div class="card">
+            <div class="card-header">
+                <h2>Lowest Rated</h2>
+            </div>
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-sm d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <h4>Subreddit</h4>
+                            </div>
+                            <div class="row justify-content-center">
+                                <h5>r/{{lowestRatedComment.subreddit}}</h5>
+                            </div>
+                        </div>
+
+                        <div class="col-sm d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <h4>Score</h4>
+                            </div>
+                            <div class="row justify-content-center">
+                                <h5>{{lowestRatedComment.score}}</h5>
+                            </div>
+                        </div>
+
+                        <div class="col-sm d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <h4>Sentiment</h4>
+                            </div>
+                            <div class="row justify-content-center">
+                                <h5>{{lowestRatedComment.sentiment}}</h5>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="contents">
+                    <p class="contents-body">"{{lowestRatedComment.contents}}"</p>
+                    <p class="contents-signature" style="text-align:right; font-weight:bold; padding: right 1rem;">-
+                        u/{{name}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let leftLength = $(".left-card .contents").text().length
+        let leftSize = 400 * Math.pow(leftLength, -.4557)
+        $(".left-card .contents-body").css("font-size", leftSize)
+        $(".left-card .contents-signature").css("font-size", leftSize * 1.5)
+
+        let rightLength = $(".right-card .contents").text().length
+        let rightSize = 400 * Math.pow(rightLength, -.4557)
+        $(".right-card .contents-body").css("font-size", rightSize)
+        $(".right-card .contents-signature").css("font-size", rightSize * 1.5)
+    </script>
+>>>>>>> e378ebe4a197e6d0f6fa6bc7077ceb89da2669c3
