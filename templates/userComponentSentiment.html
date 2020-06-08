@@ -1,7 +1,11 @@
-<div class="main-cards">
-    <div class="card">
-        {% with labels=sentimentRatios.keys(), values=sentimentRatios.values(), title='Sentiment Ratios', max=50%}
-        {% include "barchart3.html" %}
-        {% endwith %}
+<div class="row">
+    <!-- Sentiment change ratios -->
+    <div class="col-md-6">
+        <div class="card" style="margin: 20px;">
+            <h1>Sentiment Change Ratios</h1>
+            {% include "barchartSentiment.html" %}
+        </div>
+    </div>
+    <div class="col-md-6">
     </div>
 </div>

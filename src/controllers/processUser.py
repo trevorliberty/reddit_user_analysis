@@ -40,18 +40,22 @@ class SentimentChangeRatios():
     """
 
     def __init__(self):
-        self.positiveToNegative = 0.0
-        self.positiveToNeutral = 0.0
-        self.positiveToMixed = 0.0
-        self.negativeToPositive = 0.0
-        self.negativeToNeutral = 0.0
-        self.negativeToMixed = 0.0
-        self.neutralToPositive = 0.0
-        self.neutralToNegative = 0.0
-        self.neutralToMixed = 0.0
-        self.mixedToPositive = 0.0
-        self.mixedToNegative = 0.0
-        self.mixedToNeutral = 0.0
+            self.positiveToPositive = 0
+            self.positiveToNegative = 0
+            self.positiveToNeutral = 0
+            self.positiveToMixed = 0
+            self.negativeToPositive = 0
+            self.negativeToNegative = 0
+            self.negativeToNeutral = 0
+            self.negativeToMixed = 0
+            self.neutralToPositive = 0
+            self.neutralToNegative = 0
+            self.neutralToNeutral = 0
+            self.neutralToMixed = 0
+            self.mixedToPositive = 0
+            self.mixedToNegative = 0
+            self.mixedToNeutral = 0
+            self.mixedToMixed = 0
 
 
 class SentimentRatios():
@@ -292,7 +296,9 @@ def processRawUserData(user):
 
         if comment.sentiment == 'POSITIVE':
             user.sentimentRatios.positive += 1
-            if comment.parent.sentiment == 'NEGATIVE':
+            if comment.parent.sentiment == 'POSITIVE':
+                user.sentimentChangeRatios.positiveToPositive += 1
+            elif comment.parent.sentiment == 'NEGATIVE':
                 user.sentimentChangeRatios.negativeToPositive += 1
             elif comment.parent.sentiment == 'NEUTRAL':
                 user.sentimentChangeRatios.neutralToPositive += 1
@@ -303,7 +309,9 @@ def processRawUserData(user):
 
         elif comment.sentiment == 'NEGATIVE':
             user.sentimentRatios.negative += 1
-            if comment.parent.sentiment == 'POSITIVE':
+            if comment.parent.sentiment == 'NEGATIVE':
+                user.sentimentChangeRatios.negativeToNegative += 1
+            elif comment.parent.sentiment == 'POSITIVE':
                 user.sentimentChangeRatios.positiveToNegative += 1
             elif comment.parent.sentiment == 'NEUTRAL':
                 user.sentimentChangeRatios.neutralToNegative += 1
@@ -314,7 +322,9 @@ def processRawUserData(user):
 
         elif comment.sentiment == 'NEUTRAL':
             user.sentimentRatios.neutral += 1
-            if comment.parent.sentiment == 'POSITIVE':
+            if comment.parent.sentiment == 'NEUTRAL':
+                user.sentimentChangeRatios.neutralToNeutral += 1
+            elif comment.parent.sentiment == 'POSITIVE':
                 user.sentimentChangeRatios.positiveToNeutral += 1
             elif comment.parent.sentiment == 'NEGATIVE':
                 user.sentimentChangeRatios.negativeToNeutral += 1
@@ -325,7 +335,9 @@ def processRawUserData(user):
 
         elif comment.sentiment == 'MIXED':
             user.sentimentRatios.mixed += 1
-            if comment.parent.sentiment == 'POSITIVE':
+            if comment.parent.sentiment == 'MIXED':
+                user.sentimentChangeRatios.mixedToMixed += 1
+            elif comment.parent.sentiment == 'POSITIVE':
                 user.sentimentChangeRatios.positiveToMixed += 1
             elif comment.parent.sentiment == 'NEGATIVE':
                 user.sentimentChangeRatios.negativeToMixed += 1
@@ -356,18 +368,22 @@ def processRawUserData(user):
             user.dominantSentiment = "MIXED"
 
     if(commentPairsWithValidSentiment > 0.0):
+        user.sentimentChangeRatios.positiveToPositive /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.positiveToNegative /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.positiveToNeutral /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.positiveToMixed /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.negativeToPositive /= commentPairsWithValidSentiment
+        user.sentimentChangeRatios.negativeToNegative /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.negativeToNeutral /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.negativeToMixed /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.neutralToPositive /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.neutralToNegative /= commentPairsWithValidSentiment
+        user.sentimentChangeRatios.neutralToNeutral /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.neutralToMixed /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.mixedToPositive /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.mixedToNegative /= commentPairsWithValidSentiment
         user.sentimentChangeRatios.mixedToNeutral /= commentPairsWithValidSentiment
+        user.sentimentChangeRatios.mixedToMixed /= commentPairsWithValidSentiment
 
 
 def processUser(username):
