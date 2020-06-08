@@ -36,7 +36,7 @@
     <div class="main-header">
       <h1>u/{{name}}</h1>
     </div>
-    <div class="tab-pane fade show active" id="list-dashboard" role="tabpanel" aria-labelledby="list-dashboard-list">
+    <div class="tab-pane fade show active" id="list-dashboard" role="tabpanel" aria-labelledby="list-dashboard-list" style="display:block">
       <div class="main-cards">
         <div class="card">
           {% with labels=sentimentRatios.keys(), values=sentimentRatios.values(), title='Sentiment Ratios', max=50%}
@@ -47,11 +47,29 @@
         <div class="card">Card</div>
       </div>
     </div>
-    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-      <div class="main-cards">
-        <div class="card">Card</div>
-      </div>
+    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list" style="display: none">
+      <div class="card">Card</div>
     </div>
-  </main>
 </div>
+</main>
+</div>
+<script>
+curractive= $('.tab-pane.active')
+$('.tab-pane.active').show()
+$('[id^=list-]').click(()=>{
+    $(curractive).hide();
+    switchItUp().then(()=>{
+      curractive=$('.tab-pane.active')
+      $(curractive).show()
+      console.log(curractive)
+    })
+    $(curractive).show()
+})
+async function switchItUp(){
+  $(curractive).hide();
+  return new Promise((resolve, reject)=>{
+    resolve("Done")
+  })
+}
+</script>
 {% endblock  %}
