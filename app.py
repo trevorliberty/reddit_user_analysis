@@ -20,5 +20,16 @@ def index():
     return render_template('index.html')
 
 
+@app.errorhandler(404)
+def notfound(e):
+    """Error Handler for 404 requests if a page is not found"""
+    return render_template('404.html'), 404
+
+
+@app.route('/user/<username>')
+def getUser(username):
+    return render_template('user.html')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

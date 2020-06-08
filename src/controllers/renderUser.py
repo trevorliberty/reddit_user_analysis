@@ -1,4 +1,4 @@
-from flask import redirect, request, url_for, render_template, Response
+from flask import redirect, request, url_for, render_template, Response, abort
 from flask.views import MethodView, View
 import src.models as models
 from .processUser import processUser, User
@@ -112,6 +112,6 @@ class userView(View):
         else:
             userObj = processUser(username)
             if userObj == 404:
-                return Response(status=404)
+                abort(404)
             model.insertUser(userObj)
             return renderUserObj(userObj)

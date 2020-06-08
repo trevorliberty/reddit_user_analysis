@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block head %}
+{{super()}}
+{% endblock head %}
+{% block content %}
+{{super()}}
+
+<body style='background-color: #737995'>
+    <div class="container h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-6 mx-auto">
+                <h1>You look lost.</h1>
+                <button type="button" style="border-radius: 10em;
+                       box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),
+                       0 2px 10px 0 rgba(0,0,0,0.12);" class="btn btn-outline-primary"
+                    onclick=window.location=document.referrer;>Go Back
+                </button>
+            </div>
+            <div class="col-6 mx-auto">
+                <img src="{{url_for('static', filename='lost.svg')}}" style="width: 700px">
+            </div>
+        </div>
+    </div>
+
+    {% endblock content %}
+</body>
