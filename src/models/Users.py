@@ -100,7 +100,12 @@ class Users(Model):
         topSubreddits = {k: Decimal(
             str(v)) for k, v in topSubreddits.items()}
 
-        subreddits = {k: Decimal(str(v)) for k, v in user.subreddits.items()}
+        subreddits = {k: {
+            'avgScore': Decimal(str(v['avgScore'])),
+            'numComments': v['numComments'],
+            'sentimentCounts': v['sentimentCounts']}
+            for k, v in user.subreddits.items()
+        }
         lowestRated = {
             'contents': user.lowestRatedComment.contents,
             'score': user.lowestRatedComment.score,

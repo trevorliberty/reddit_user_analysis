@@ -15,9 +15,13 @@ def instantiate(username):
     user = retrieveUser(username)
     try:
         karma = user.comment_karma
-    except:
+        comments = getNewComments(user)
+        if not len(comments):
+            raise Exception('no comments')
+        return [karma, comments]
+    except Exception:
+        print(Exception)
         return 404
-    return [karma, getNewComments(user)]
 
 
 def retrieveUser(username):
@@ -59,7 +63,8 @@ def getNewComments(user):
             'body': comment.body,
             'parent': par,
             'subreddit': comment.subreddit.display_name,
-            'score': comment.score
+            'score': comment.score,
+            'created_utc': comment.created_utc
         }
         comments.append(commentObj)
 
