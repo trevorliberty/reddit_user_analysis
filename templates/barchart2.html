@@ -26,16 +26,6 @@ var planetData = {
   labels: ['POSITIVE', 'NEGATIVE', 'NEUTRAL', 'MIXED'],
   datasets: [densityData, gravityData]
 };
-
-{% for item in  items %}
-
-var {{item}} = {
-  label: '{{item}}',
-  data = 
-}
-
-{% endfor %}
-
 var chartOptions = {
   scales: {
     xAxes: [{

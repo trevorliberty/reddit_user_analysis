@@ -16,7 +16,7 @@ def fixSubreddits(subreddits):
 
 
 def renderUser(user):
-    subreddits = fixSubreddits(user['subreddits'])
+    #subreddits = fixSubreddits(user['subreddits'])
     for k, v in user.items():
         print(k)
     return render_template(
