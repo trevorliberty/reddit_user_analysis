@@ -5,51 +5,53 @@
 {%block content%}
 <style>
   .list-group-item.active {
-    background-color: #4051B5 !important;
-    border-color: #4051B5 !important;
+    background-color: #826601 !important;
+    border-color: #826601 !important;
   }
 </style>
 {{super()}}
-
-<!--
-<div class="card" style="width: 40rem;">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-    </p>
-    <div class="row">
-      <div class="col-5">
-        <div class="list-group" id="list-tab" role="tablist">
-          <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list"
-            href="#list-home" role="tab" aria-controls="home">Home</a>
-          <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
-            href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-          <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
-            href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-          <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-            href="#list-settings" role="tab" aria-controls="settings">Settings</a>
-          <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-            href="#list-settings" role="tab" aria-controls="settings">Settings</a>
-          <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-            href="#list-settings" role="tab" aria-controls="settings">Settings</a>
-          <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-            href="#list-settings" role="tab" aria-controls="settings">Settings</a>
-          <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-            href="#list-settings" role="tab" aria-controls="settings">Settings</a>
-          <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-            href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+<div class="grid-container">
+  <div class="menu-icon">
+    <i class="fas fa-bars header__menu"></i>
+  </div>
+  <aside class="sidenav">
+    <div class="sidenav__close-icon">
+      <i class="fas fa-times sidenav__brand-close"></i>
+    </div>
+    <ul class="sidenav__list">
+      <a href="/" style="padding:3em;""><img src=" {{url_for('static', filename='exit.svg')}}"style="width:2em;"></a>
+      <div class="list-group" id="list-tab" role="tablist">
+        <a class="list-group-item list-group-item-action active" id="list-dashboard-list" data-toggle="list"
+          href="#list-dashboard" role="tab" aria-controls="dashboard">Dashboard</a>
+        <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile"
+          role="tab" aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
+          href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
+          href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+      </div>
+    </ul>
+  </aside>
+  <main class="main">
+    <div class="main-header">
+      <h1>u/{{name}}</h1>
+    </div>
+    <div class="tab-pane fade show active" id="list-dashboard" role="tabpanel" aria-labelledby="list-dashboard-list">
+      <div class="main-cards">
+        <div class="card">
+          {% with labels=sentimentRatios.keys(), values=sentimentRatios.values(), title='Sentiment Ratios', max=50%}
+          {% include "barchart.html" %}
+          {% endwith %}
         </div>
+        <div class="card">Card</div>
+        <div class="card">Card</div>
       </div>
     </div>
-  </div>
-  <div class="col-9">
-    <div class="tab-content" id="nav-tabContent">
-      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">kaka</div>
-      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">fuck</div>
-      <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
-      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+      <div class="main-cards">
+        <div class="card">Card</div>
+      </div>
     </div>
-  </div>
+  </main>
 </div>
--->
 {% endblock  %}

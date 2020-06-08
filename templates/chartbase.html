@@ -28,7 +28,7 @@
           
           data : [
             {% for item in values %}
-               "{{ item }}",
+               "{{ item*100 }}",
               {% endfor %}
 	    ]
           }
