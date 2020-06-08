@@ -7,14 +7,13 @@ from .processUser import processUser, User
 def renderUser(user):
     for k, v in user.items():
         print(k)
-    print(user)
     return render_template(
         'user.html',
         name=user['name'],
         # language=user['language'],
         karma=user['karma'],
         topSubreddits=user['topSubreddits'],
-        languageComplexity = user['languageComplexity'],
+        languageComplexity=user['languageComplexity'],
         # dominantSentiment=user['dominantSentiment'],
         lowestRatedComment={
             'contents': user['lowestRatedComment']['contents'],
@@ -60,7 +59,7 @@ def renderUserObj(user):
         karma=user.karma,
         topSubreddits=user.topSubreddits,
         dominantSentiment=user.dominantSentiment,
-        languageComplexity = user.languageComplexity,
+        languageComplexity=user.languageComplexity,
         lowestRatedComment={
             'contents': user.lowestRatedComment.contents,
             'score': user.lowestRatedComment.score,
@@ -73,7 +72,7 @@ def renderUserObj(user):
             'subreddit': user.topRatedComment.subreddit,
             'sentiment': user.topRatedComment.sentiment,
         },
-        sentimentChangeRatios = {
+        sentimentChangeRatios={
             'positiveToNegative': user.sentimentChangeRatios.positiveToNegative,
             'positiveToNeutral': user.sentimentChangeRatios.positiveToNeutral,
             'positiveToMixed': user.sentimentChangeRatios.positiveToMixed,
@@ -87,7 +86,7 @@ def renderUserObj(user):
             'mixedToNegative': user.sentimentChangeRatios.mixedToNegative,
             'mixedToNeutral': user.sentimentChangeRatios.mixedToNeutral,
         },
-        sentimentRatios = {
+        sentimentRatios={
             'positive': user.sentimentRatios.positive,
             'negative': user.sentimentRatios.negative,
             'neutral': user.sentimentRatios.neutral,
@@ -108,6 +107,7 @@ class userView(View):
         model = models.init()
         user = model.getUser(username)
         if user:
+            print("dynamodb")
             return renderUser(user)
         else:
             userObj = processUser(username)
