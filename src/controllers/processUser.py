@@ -18,6 +18,7 @@ class Parent():
         self.contents = contents
         self.sentiment = sentiment
 
+
 class Comment():
     """
         Used to store comment information inside 'User' objects.
@@ -29,6 +30,7 @@ class Comment():
         self.subreddit = subreddit
         self.sentiment = sentiment
         self.parent = parent
+
 
 class SentimentChangeRatios():
     """
@@ -49,6 +51,7 @@ class SentimentChangeRatios():
         self.mixedToNegative = 0.0
         self.mixedToNeutral = 0.0
 
+
 class SentimentRatios():
     """
         Used to store information about comment sentiment ratios inside 'User' objects.
@@ -59,6 +62,7 @@ class SentimentRatios():
         self.negative = 0
         self.neutral = 0
         self.mixed = 0
+
 
 class User():
     """
@@ -174,10 +178,10 @@ def processLanguageComplexity(comments):
     :returns: Calculated complexity of the user (1-10). -1 If the complexity was not able to be calculated for any reason.
     """
 
-    # Filter out comments that are compliant with API requirements. 
+    # Filter out comments that are compliant with API requirements.
     validComments = []
     for comment in comments:
-        commentWordCount = len(re.findall(r'\w+', comment)) 
+        commentWordCount = len(re.findall(r'\w+', comment))
         commentCharCount = len(comment)
         if commentWordCount <= 200 and commentCharCount <= 3000:
             validComments.append(comment)
@@ -185,15 +189,16 @@ def processLanguageComplexity(comments):
     # Determine the amount of comments to be processed (as many as possible between 10 and 40)
     commentCountToProcess = 0
     validCommentCount = len(validComments)
-    if(validCommentCount < 10): # No Point in analyzing less than 10 comments
+    if(validCommentCount < 10):  # No Point in analyzing less than 10 comments
         return -1.0
     elif(validCommentCount >= 40):
         commentCountToProcess = 40
     else:
         commentCountToProcess = validCommentCount
-        
+
     # Create a random range of indexes of size commentCountToProcess within the validCommentCount range and calculate the complexity average for the comments at those indexes.
-    commentRandomIndexList = random.sample(range(validCommentCount), commentCountToProcess)
+    commentRandomIndexList = random.sample(
+        range(validCommentCount), commentCountToProcess)
     complexityAccumulator = 0
     validComplexityCount = 0
     for index in commentRandomIndexList:
@@ -202,7 +207,7 @@ def processLanguageComplexity(comments):
             complexityAccumulator += calculatedComplexity
             validComplexityCount += 1
     return complexityAccumulator / validComplexityCount
-    
+
 
 def processRawUserData(user):
     """
@@ -223,10 +228,11 @@ def processRawUserData(user):
     commentsSortedByScore = sorted(user.comments, key=lambda x: x.score)
     user.lowestRatedComment = commentsSortedByScore[0]
     user.topRatedComment = commentsSortedByScore[user.commentCount - 1]
-# Deterime highest and lowest sentiment comment
+    # Deterime highest and lowest sentiment comment
 
     # Determine user's language complexity.
-    user.languageComplexity = processLanguageComplexity([comment.contents for comment in user.comments])
+    user.languageComplexity = processLanguageComplexity(
+        [comment.contents for comment in user.comments])
 
     # Process comment sentiment data.
     commentsWithValidSentiment = 0.0
