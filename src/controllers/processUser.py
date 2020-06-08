@@ -272,8 +272,6 @@ def processRawUserData(user):
             user.topSubreddits = {subreddit[0]: subreddit[1]/user.commentCount}
 
     user.subreddits = processSubreddits(subreddits, user)
-    print('------------')
-    print(user.subreddits)
     # Determine best and worst rated comment.
     commentsSortedByScore = sorted(user.comments, key=lambda x: x.score)
     user.lowestRatedComment = commentsSortedByScore[0]

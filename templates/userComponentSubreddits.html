@@ -1,7 +1,7 @@
     <div class="col">
         <div class="main-cards">
             <div class="card" style="height:75%">
-                {% with labels=subreddits.keys(), values=subreddits.values(), title='Sentiment Ratios', max=50%}
+                {% with items = subreddits.items(), title='Sentiment Ratios', max=50%}
                 {% include "barchart2.html" %}
                 {% endwith %}
             </div>
