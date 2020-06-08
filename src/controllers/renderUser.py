@@ -6,8 +6,8 @@ from .processUser import processUser, User
 
 def fixSubreddits(subreddits):
     d = {"POSTIVE", "NEGATIVE", "NEUTRAL", "MIXED"}
-    for v in subreddits.items():
-        for va, val in v['sentimentCounts'][0]:
+    for v in subreddits.values():
+        for va in v['sentimentCounts'].keys():
             for d_ in d:
                 if d_ not in va:
                     va[d] = 0
