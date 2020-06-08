@@ -1,7 +1,10 @@
 import praw
+import os
 
-reddit = praw.Reddit(client_id="zcpKwNZG8DvpMg",
-                     client_secret="urYURxN7NEao8TlE-gB_33f3ANE", user_agent="trevor")
+clientId = os.environ['praw_client_id']
+key = os.environ['praw_key']
+reddit = praw.Reddit(client_id=clientId,
+                     client_secret=key, user_agent="trevor")
 
 
 blanketUser = {

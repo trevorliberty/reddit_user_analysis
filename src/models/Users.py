@@ -67,6 +67,7 @@ class Users(Model):
                 'name': u['username'],
                 'karma': u['karma'],
                 'lowestRatedComment': u['lowestRatedComment'],
+                'languageComplexity' : u['languageComplexity'],
                 'topRatedComment': u['topRatedComment'],
                 'sentimentRatios': u['sentimentRatios'],
                 'topSubreddits': u['topSubreddits'],

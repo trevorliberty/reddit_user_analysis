@@ -18,14 +18,6 @@ class Parent():
         self.contents = contents
         self.sentiment = sentiment
 
-    def display(self):
-        print('***** Parent *****')
-        print(f'Score: {str(self.score)}')
-        print(f'Contents: {self.contents}')
-        print(f'Sentiment: {str(self.sentiment)}')
-        print('*****')
-
-
 class Comment():
     """
         Used to store comment information inside 'User' objects.
@@ -37,17 +29,6 @@ class Comment():
         self.subreddit = subreddit
         self.sentiment = sentiment
         self.parent = parent
-
-    def display(self):
-        print('***** Comment *****')
-        print(f'Score: {str(self.score)}')
-        print(f'Contents: {self.contents}')
-        print(f'Sentiment: {str(self.sentiment)}')
-        print(f'Subreddit: {self.subreddit}')
-        print(f'ParentComment: ')
-        self.parent.display()
-        print('*****')
-
 
 class SentimentChangeRatios():
     """
@@ -68,23 +49,6 @@ class SentimentChangeRatios():
         self.mixedToNegative = 0.0
         self.mixedToNeutral = 0.0
 
-    def display(self):
-        print('***** Sentiment change ratios: *****')
-        print(self.positiveToNegative)
-        print(self.neutralToNegative)
-        print(self.mixedToNegative)
-        print(self.negativeToPositive)
-        print(self.neutralToPositive)
-        print(self.mixedToPositive)
-        print(self.positiveToNeutral)
-        print(self.negativeToNeutral)
-        print(self.mixedToNeutral)
-        print(self.positiveToMixed)
-        print(self.negativeToMixed)
-        print(self.neutralToMixed)
-        print('*****')
-
-
 class SentimentRatios():
     """
         Used to store information about comment sentiment ratios inside 'User' objects.
@@ -95,15 +59,6 @@ class SentimentRatios():
         self.negative = 0
         self.neutral = 0
         self.mixed = 0
-
-    def display(self):
-        print('***** Sentiment ratios: *****')
-        print(self.positive)
-        print(self.negative)
-        print(self.neutral)
-        print(self.mixed)
-        print('*****')
-
 
 class User():
     """
@@ -126,28 +81,6 @@ class User():
         self.topRatedComment = Comment()
         self.sentimentChangeRatios = SentimentChangeRatios()
         self.sentimentRatios = SentimentRatios()
-
-    def display(self):
-        print('################# USER: #################')
-        print(f"Name:   {self.name}")
-        print(f"Language:  {self.language}")
-        print(f"Karma:  {self.karma}")
-        print(f"Comment count: {self.commentCount}")
-
-        # Processed data (extracted from raw data):
-        print("Top subreddtis:")
-        for subreddit in self.topSubreddits:
-            print(subreddit)
-
-        print(f"Sentiment Average:  {self.dominantSentiment}")
-        print('################# LOWEST RATED COMMENT: #################')
-        self.lowestRatedComment.display()
-        print('################# HIGHEST RATED COMMENT: #################')
-        self.topRatedComment.display()
-        print('################# SENTIMENT RATIOS: #################')
-        self.sentimentRatios.display()
-        print('################# SENTIMENT CHANGE RATIOS: #################')
-        self.sentimentChangeRatios.display()
 
 
 def guessUserLanguage(comments):
@@ -388,7 +321,6 @@ def processUser(username):
     if prawData != 404:
         user = generateUserWithRawData(prawData, username)
         processRawUserData(user)
-        user.display()
         return user
     else:
         return 404
