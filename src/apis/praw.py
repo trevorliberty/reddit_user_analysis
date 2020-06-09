@@ -28,6 +28,10 @@ def retrieveUser(username):
     return reddit.redditor(name=username)
 
 
+def getIcon(subredditName):
+    return reddit.subreddit(subredditName).icon_img
+
+
 def getNewComments(user):
     comments = []
     for comment in user.comments.new(limit=40):  # TODO change to 100
@@ -64,8 +68,9 @@ def getNewComments(user):
             'parent': par,
             'subreddit': comment.subreddit.display_name,
             'score': comment.score,
-            'created_utc': comment.created_utc
+            'created_utc': comment.created_utc,
         }
+
         comments.append(commentObj)
 
     return comments
