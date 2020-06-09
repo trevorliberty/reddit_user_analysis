@@ -15,7 +15,7 @@
 
 add users you want to track and identify
 route can be via the url for the user
-    `website.com/api/<username>`
+    `website.com/<username>`
 
 ##Todos
 - [ ] subreddits that host their most negative comments

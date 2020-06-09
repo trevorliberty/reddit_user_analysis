@@ -126,7 +126,7 @@ $( "#search" ).keypress(function( event ) {
   if(event.which===13){
     event.preventDefault()
     username = $(this)[0].value
-    window.location.href=`/api/${username}`
+    window.location.href=`/${username}`
     $('#contents').hide();
     $('#loading').show();
   }

@@ -74,7 +74,7 @@ def getComplexity(textData):
         querystring = {"text": textData}
         headers = {
             'x-rapidapi-host': "twinword-language-scoring.p.rapidapi.com",
-            'x-rapidapi-key': "09e32c1f41mshfb7d5522017cdd3p18bd8fjsnb1b575e4cc6f"
+            'x-rapidapi-key': key
         }
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
