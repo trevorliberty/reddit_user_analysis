@@ -1,11 +1,25 @@
-<div class="row">
-    <!-- Sentiment change ratios -->
-    <div class="col-md-6">
-        <div class="card" style="margin: 20px;">
-            <h1>Sentiment Change Ratios</h1>
-            {% include "barchartSentiment.html" %}
+{% block content %}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/sentiment.css') }}">
+</head>
+
+
+    <div class="card-deck row" style="width: 100%;">
+        <div class="col-6">
+            <div class="card card-left" style="height: 100%;">
+                <div class="card-body" style="height: 100%;">
+                    {% include "barchartSentiment.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="col-6 card-right">
+            <div class="card" style="height: 100%;">
+                <div class="card-body">
+                    {% include "doughnutChartSentiment.html" %}
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-md-6">
-    </div>
-</div>
+{% endblock content %}

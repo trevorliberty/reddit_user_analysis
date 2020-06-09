@@ -1,7 +1,6 @@
 html,
 body {
-    background-color: #737995 !important;
-
+    background-color: rgb(28, 64, 122) !important;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
@@ -27,7 +26,7 @@ body {
 
 .sidenav {
     grid-area: sidenav;
-    background: #4b0082;
+    background: rgb(94,153,206);
     display: flex;
     flex-direction: column;
     color: #F2F2F2;
@@ -58,7 +57,7 @@ body {
     margin: 20px;
     padding: 20px;
     height: 150px;
-    background-color: #E6E5E3;
+    background-color: rgb(207,227,248);
     color: #656566;
 }
 
@@ -90,24 +89,12 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    background: #E3F2FC;
+    background:rgb(207,227,248);
     margin-bottom: 20px;
     padding: 24px;
     -webkit-column-break-inside: avoid;
     /*   border: 4px solid black; */
     box-sizing: border-box;
-}
-
-.card:first-child {
-    height: 485px;
-}
-
-.card:nth-child(2) {
-    height: 200px;
-}
-
-.card:nth-child(3) {
-    height: 265px;
 }
 
 .footer {
@@ -122,3 +109,4 @@ footer {
     align-items: center;
     justify-content: space-between;
 }
+

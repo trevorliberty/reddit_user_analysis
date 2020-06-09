@@ -1,0 +1,34 @@
+
+<div>
+    <canvas id="sentimentChart" width="525" height="525"></canvas>
+</div>
+
+<script>
+
+    var ctxSentiment = document.getElementById('sentimentChart').getContext('2d');
+    var sentimentChangeDoughnutChart = new Chart(ctxSentiment, {
+        type: 'doughnut',
+        data: {
+            labels: ['Positive', 'Negative', 'Neutral', 'Mixed'],
+            datasets: [{
+                data: [ {% for value in sentimentRatios.values() %} {{ value*100 }}, {% endfor %} ],
+                backgroundColor: [
+                    'rgba(122, 196, 53, 0.9)',
+                    'rgba(255, 99, 132, 0.9)',
+                    'rgba(122, 117, 113, 0.9)',
+                    'rgba(242, 131, 34, .9)',
+               ],
+                borderColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 8
+            }]
+        },
+        options: {
+            legend : {
+                display : true
+            },
+            responsive: false,
+            maintainAspectRatio: false
+        }
+    });
+
+</script>
