@@ -1,4 +1,4 @@
-from src.apis.praw import instantiate
+from src.apis.praw import instantiate, getIcon
 from src.apis.textAnalysis import getLanguage, getSentiment, getComplexity
 from collections import Counter
 import random
@@ -40,22 +40,22 @@ class SentimentChangeRatios():
     """
 
     def __init__(self):
-            self.positiveToPositive = 0
-            self.positiveToNegative = 0
-            self.positiveToNeutral = 0
-            self.positiveToMixed = 0
-            self.negativeToPositive = 0
-            self.negativeToNegative = 0
-            self.negativeToNeutral = 0
-            self.negativeToMixed = 0
-            self.neutralToPositive = 0
-            self.neutralToNegative = 0
-            self.neutralToNeutral = 0
-            self.neutralToMixed = 0
-            self.mixedToPositive = 0
-            self.mixedToNegative = 0
-            self.mixedToNeutral = 0
-            self.mixedToMixed = 0
+        self.positiveToPositive = 0
+        self.positiveToNegative = 0
+        self.positiveToNeutral = 0
+        self.positiveToMixed = 0
+        self.negativeToPositive = 0
+        self.negativeToNegative = 0
+        self.negativeToNeutral = 0
+        self.negativeToMixed = 0
+        self.neutralToPositive = 0
+        self.neutralToNegative = 0
+        self.neutralToNeutral = 0
+        self.neutralToMixed = 0
+        self.mixedToPositive = 0
+        self.mixedToNegative = 0
+        self.mixedToNeutral = 0
+        self.mixedToMixed = 0
 
 
 class SentimentRatios():
@@ -242,14 +242,16 @@ def processLanguageComplexity(comments):
 def processSubreddits(subreddits, user):
     processed = {}
     for k, v in subreddits.items():
-        sentimentCounts = Counter(x['sentiment'] for x in v)
+        icon = getIcon(k)
+        sentimentCounts = Counter(x['sentiment'] for x in v).most_common()
         numComments = len(v)
         avgScore = float(sum(d['score'] for d in v)) / numComments
         print(avgScore)
         processed[k] = {
             'sentimentCounts': dict(sentimentCounts),
             'numComments': numComments,
-            'avgScore': avgScore
+            'avgScore': avgScore,
+            'icon': icon
         }
     return processed
 
