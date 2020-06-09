@@ -1,100 +1,55 @@
-<!--
-<div class="main-cards">
-    <div class="card">
-        {% with labels=sentimentRatios.keys(), values=sentimentRatios.values(), title='Sentiment Ratios', max=50%}
-        {% include "barchartDashboard.html" %}
-        {% endwith %}
-    </div>
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <h5 class="card-title">Dominant Sentiment</h5>
-                    <p class="card-text">
-                    {{dominantSentiment}}
-                    </p>
-                    <hr>
-                    <hr>
-                    <hr>
-                    <h5 class="card-title">Comment Karma</h5>
-                    <p class="card-text">
-                    {{karma}}
-                    </p>
-                    <hr>
-                    <hr>
-                    <hr>
-                    <h5 class="card-title">Language Complexity</h5>
-                    <p class="card-text">
-                    {{languageComplexity}}
-                    </p>
-                    <hr>
-                    <hr>
-                    <hr>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <h5 class="card-title">Top Subreddits</h5>
-                    {% for subreddit in topSubreddits.keys() %}
-                    <br>
-                    <h5 class="card-text">
-                    r/{{subreddit}}
-                    </h5>
-                    <hr>
-                    <hr>
-                    <hr>
-                    {% endfor %}
-                </div>
-            </div>
+{% block content %}
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.css">
+</head>
+
+<div class="row" style="padding-left:20px !important; padding-right:0px !important; margin-right:20px !important;">
+    ​
+    <div class="col-sm-6">
+        <div class="card">
+            {% include "barchartyDashboard.html" %}
         </div>
+    </div>
+    ​
+    <div class="col-sm-3">
+        <div class="card">
+            <h5 class="card-title">Dominant Sentiment</h5>
+            <p class="card-text">
+                {{dominantSentiment}}
+            </p>
+            <hr>
+            <hr>
+            <hr>
+            <h5 class="card-title">Comment Karma</h5>
+            <p class="card-text">
+                {{karma}}
+            </p>
+            <hr>
+            <hr>
+            <hr>
+            <h5 class="card-title">Language Complexity</h5>
+            <p class="card-text">
+                {{languageComplexity}}
+            </p>
+            <hr>
+            <hr>
+            <hr>
+        </div>
+    </div>
+    <div class="col-sm-3" style="padding-right: 0px !important;">
+        <div class="card">
+            <h5 class="card-title">Top Subreddits</h5>
+            {% for subreddit in topSubreddits.keys() %}
+            <h5>
+                r/{{subreddit}}
+            </h5>
+            <hr>
+            <hr>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
 </div>
--->
-
-    <div class="row" style="padding-left:20px !important; padding-right:0px !important; margin-right:20px !important;">
-
-        <div class="col-sm-6">
-            <div class="card">
-                {% with labels=sentimentRatios.keys(), values=sentimentRatios.values(), title='Sentiment Ratios', max=50%}
-                {% include "barchartDashboard.html" %}
-                {% endwith %}
-            </div>
-        </div>
-
-        <div class="col-sm-3">
-            <div class="card">
-                <h5 class="card-title">Dominant Sentiment</h5>
-                <p class="card-text">
-                    {{dominantSentiment}}
-                </p>
-                <hr>
-                <hr>
-                <hr>
-                <h5 class="card-title">Comment Karma</h5>
-                <p class="card-text">
-                    {{karma}}
-                </p>
-                <hr>
-                <hr>
-                <hr>
-                <h5 class="card-title">Language Complexity</h5>
-                <p class="card-text">
-                    {{languageComplexity}}
-                </p>
-                <hr>
-                <hr>
-                <hr>
-            </div>
-        </div>
-        <div class="col-sm-3" style="padding-right: 0px !important;">
-            <div class="card">
-                <h5 class="card-title">Top Subreddits</h5>
-                {% for subreddit in topSubreddits.keys() %}
-                <h5>
-                    r/{{subreddit}}
-                </h5>
-                <hr>
-                <hr>
-                <hr>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+{% endblock content %}
