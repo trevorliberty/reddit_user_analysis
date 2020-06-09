@@ -7,7 +7,7 @@ import os
 client = boto3.client('comprehend')
 
 
- def getLanguage(textData):
+def getLanguage(textData):
     """
     Detects the language of the passed in string
     :param textData string whose language is to be analyzed. Must be at least 20 characters long and have fewer than 5000 bytes of UTF-8 compliant characters.
@@ -26,7 +26,7 @@ client = boto3.client('comprehend')
         return 'UNDEFINED'
 
 
- def getSentiment(textData, language="UNDEFINED"):
+def getSentiment(textData, language="UNDEFINED"):
     """
     Detects the language of the passed in string
     Text will be analyzed if it is smaller than 5000 bytes of UTF-8 encoded characters and in one of Amazon Comprehend's primary languages:
@@ -54,7 +54,7 @@ client = boto3.client('comprehend')
         return 'UNDEFINED'
 
 
- def getComplexity(textData):
+def getComplexity(textData):
     """
     Analyzes and ranks text on its linguistic complexity on a scale of 1 to 10 where 1 is least complex and 10 is most complex.
     Note: most text stacks around 4-5 range. So, 1 - extremely below average, 2-3 - below average, 4 - average, 5-6 above average, 7+ genius.
@@ -71,12 +71,13 @@ client = boto3.client('comprehend')
     charCount = len(textData)
 
     if wordCount <= 200 and charCount <= 3000:
-        querystring = {"text":textData}
+        querystring = {"text": textData}
         headers = {
             'x-rapidapi-host': "twinword-language-scoring.p.rapidapi.com",
             'x-rapidapi-key': "09e32c1f41mshfb7d5522017cdd3p18bd8fjsnb1b575e4cc6f"
-            }
-        response = requests.request("GET", url, headers=headers, params=querystring)
+        }
+        response = requests.request(
+            "GET", url, headers=headers, params=querystring)
         if response:
             return response.json()['ten_degree']
         else:
