@@ -1,23 +1,33 @@
-{% extends "chartbase.html" %}
-{% block content %}
-{{ super() }}
+<div>
+    <canvas id="dashSentimentChart" width="480" height="480"></canvas>
+</div>
+
 <script>
-     var mychart = document.getElementById("chart").getContext("2d");
 
-       steps = 2
-       max = {{max}}
+    var ctxDashSentimentChart = document.getElementById('dashSentimentChart').getContext('2d');
+    var dashSentimentBoxChart = new Chart(ctxDashSentimentChart, {
+        type: 'bar',
+        data: {
+            labels: ['Positive', 'Negative', 'Neutral', 'Mixed'],
+            datasets: [{
+                data: [ {% for value in sentimentRatios.values() %} {{ value*100 }}, {% endfor %} ],
+                backgroundColor: [
+                    'rgba(122, 196, 53, 0.9)',
+                    'rgba(255, 99, 132, 0.9)',
+                    'rgba(122, 117, 113, 0.9)',
+                    'rgba(242, 131, 34, .9)',
+                ],
+                borderColor: 'rgba(0, 0, 0, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            legend : {
+                display : false
+            },
+            responsive: false,
+            maintainAspectRatio: false
+        }
+    });
 
-     new Chart(mychart).Bar(barData, {
-       scaleOverride: true,
-       scaleSteps: steps,
-       scaleStepWidth: Math.ceil(max / steps),
-       scaleStartValue: 0,
-       scaleShowVerticalLines: true,
-       scaleShowGridLines : true,
-       barShowStroke : true,
-       scaleShowLabels: true
-       }
-     );
 </script>
-
-{% endblock content %}
