@@ -1,12 +1,8 @@
 import praw
 import os
 
-key = 'urYURxN7NEao8TlE-gB_33f3ANE'
-clientId = 'zcpKwNZG8DvpMg'
-'''
 clientId = os.environ['praw_client_id']
 key = os.environ['praw_key']
-'''
 reddit = praw.Reddit(client_id=clientId,
                      client_secret=key, user_agent="trevor")
 
