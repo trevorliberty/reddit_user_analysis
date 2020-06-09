@@ -5,6 +5,8 @@ from .processUser import processUser, User
 
 
 def renderUser(user):
+    for v in user['subreddits'].values():
+        v['sentimentCounts'] = next(iter(v['sentimentCounts']))
     return render_template(
         'user.html',
         name=user['name'],
@@ -55,6 +57,8 @@ def renderUser(user):
 
 
 def renderUserObj(user):
+    for v in user.subreddits.values():
+        v['sentimentCounts'] = next(iter(v['sentimentCounts']))
     return render_template(
         'user.html',
         name=user.name,

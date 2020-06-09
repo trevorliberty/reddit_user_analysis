@@ -15,6 +15,10 @@ blanketUser = {
 
 
 def instantiate(username):
+    """
+    Retrieves a user from the praw api and processes it.
+    :param: username: String
+    """
     user = retrieveUser(username)
     try:
         karma = user.comment_karma
@@ -27,14 +31,25 @@ def instantiate(username):
 
 
 def retrieveUser(username):
+    """
+    Retrieves a reddit user from the praw api
+    :param: username:String
+    """
     return reddit.redditor(name=username)
 
 
 def getIcon(subredditName):
+    """
+    Retrieves an icon from a subreddit
+    """
     return reddit.subreddit(subredditName).icon_img
 
 
 def getNewComments(user):
+    """
+    Final area of processing all comments
+    :param: user:User Object
+    """
     comments = []
     for comment in user.comments.new(limit=40):  # TODO change to 100
         parent = comment.parent()

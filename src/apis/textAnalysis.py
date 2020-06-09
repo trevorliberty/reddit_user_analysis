@@ -78,9 +78,9 @@ def getComplexity(textData):
         }
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
-        if response:
+        try:
             return response.json()['ten_degree']
-        else:
+        except:
             return -1
     else:
         return -1

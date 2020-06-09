@@ -265,7 +265,7 @@ def processRawUserData(user):
     # Determine favorite subreddits with ratio of all comments posted on each one.
     subreddits = [c.subreddit for c in user.comments]
     c = Counter(sr for sr in subreddits)
-    c = c.most_common(5)
+    c = c.most_common(3)
     dc = dict(c)
     # list comprehension
     subreddits = {k: v for (k, v) in user.subreddits.items() if k in dc}

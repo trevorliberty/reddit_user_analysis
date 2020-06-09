@@ -1,14 +1,21 @@
 <div class="container">
-    <div class="row">
+    <div class="card-deck row">
         {% for k,v in subreddits%}
         <div class="col-md-4">
             <div class="card">
-                {{v}}
-                <h5 class="card-title">{{k}}</h5>
-                Overall sentiments:{% for k_ in v['sentimentCounts'].keys() %}
-                {{k_}}
-                {% endfor %}
-                <img src="{{v['icon']}}">
+                {% if v['icon']  %}
+                <img src="{{v['icon']}}" style="width:40%;border-radius: 50%;">
+                {% else %}
+                <img src="https://b.thumbs.redditmedia.com/iTldIIlQVSoH6SPlH9iiPZZVzFWubJU7cOM__uqSOqU.png" style="width:40%; border-radius:50%;">
+                {% endif %}
+                <h5 class="card-title"><strong>r/{{k}}</strong></h5>
+                <p class="card-text">
+                Overall sentiment: {{v['sentimentCounts']}}
+                <br>
+                Total Number of comments: {{v['numComments']}}
+                <br>
+                Average score: {{v['avgScore']|round(1)}}
+                </p>
             </div>
         </div>
         {% endfor %}
