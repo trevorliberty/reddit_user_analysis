@@ -5,17 +5,6 @@ from .processUser import processUser, User
 
 
 def renderUser(user):
-
-    subredditFeatures = []
-
-    print(user['subreddits'])
-    for k, v in user.items():
-        print(k)
-    if len(user['subreddits'].keys()) < 5:
-        subRedditsPlainFlag = True
-        print(len(user['subreddits'].keys()))
-    else:
-        subRedditsPlainFlag = False
     return render_template(
         'user.html',
         name=user['name'],
@@ -61,9 +50,7 @@ def renderUser(user):
             'mixedToMixed': user['sentimentChangeRatios']['mixedToMixed'],
         },
         dominantSentiment=user['dominantSentiment'],
-        subRedditsPlainFlag=subRedditsPlainFlag,
         subreddits=user['subreddits'].items(),
-        subredditFeatures=subredditFeatures
     )
 
 
@@ -112,7 +99,7 @@ def renderUserObj(user):
             'neutral': user.sentimentRatios.neutral,
             'mixed': user.sentimentRatios.mixed
         },
-        subreddits=user.subreddits
+        subreddits=user.subreddits.items()
     )
 
 
