@@ -1,13 +1,12 @@
-
 <div>
-    <canvas id="sentimentChart" width="475" height="475"></canvas>
+    <canvas id="dashSentimentChart" width="480" height="480"></canvas>
 </div>
 
 <script>
 
-    var ctxSentiment = document.getElementById('sentimentChart').getContext('2d');
-    var sentimentChangeDoughnutChart = new Chart(ctxSentiment, {
-        type: 'doughnut',
+    var ctxDashSentimentChart = document.getElementById('dashSentimentChart').getContext('2d');
+    var dashSentimentBoxChart = new Chart(ctxDashSentimentChart, {
+        type: 'bar',
         data: {
             labels: ['Positive', 'Negative', 'Neutral', 'Mixed'],
             datasets: [{
@@ -17,14 +16,14 @@
                     'rgba(255, 99, 132, 0.9)',
                     'rgba(122, 117, 113, 0.9)',
                     'rgba(242, 131, 34, .9)',
-               ],
-                borderColor: 'rgba(255, 255, 255, 1)',
-                borderWidth: 8
+                ],
+                borderColor: 'rgba(0, 0, 0, 1)',
+                borderWidth: 1
             }]
         },
         options: {
             legend : {
-                display : true
+                display : false
             },
             responsive: false,
             maintainAspectRatio: false
