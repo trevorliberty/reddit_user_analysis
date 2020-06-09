@@ -1,45 +1,16 @@
 <div class="container">
-    {% if "subredditsPlainFlag" %}
-    {% for k,v in subreddits%}
-    <div class="card-deck row">
-        <div class="col-md-3">
+    <div class="row">
+        {% for k,v in subreddits%}
+        <div class="col-md-4">
             <div class="card">
+                {{v}}
                 <h5 class="card-title">{{k}}</h5>
                 Overall sentiments:{% for k_ in v['sentimentCounts'].keys() %}
                 {{k_}}
-                {% endfor %} 
+                {% endfor %}
                 <img src="{{v['icon']}}">
             </div>
-            </div>
-    </div>
-    {% endfor %}
-
-    {% else %}
-    <div class="card-deck row">
-        <div class="col-md-4" style="padding-left:0px!important" id="hello">
-            <div class="card card-left" style="margin-left:0px!important">
-            </div>
         </div>
-        <div class="col-md-4 ml-auto">
-            <div class="card">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 mx-auto">
-            <div class="card">
-            </div>
-        </div>
-    </div>
-    <div class="card-deck row">
-        <div class="col-md-4" style="padding-left:0px!important" id="hello">
-            <div class="card card-left" style="margin-left:0px!important">
-            </div>
-        </div>
-        <div class="col-md-4 ml-auto">
-            <div class="card card-right">
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
-{% endif %}

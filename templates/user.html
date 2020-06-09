@@ -5,8 +5,8 @@
 {%block content%}
 <style>
   .list-group-item.active {
-    background-color: rgb(207,227,248) !important;
-    border-color: rgb(207,227,248) !important;
+    background-color: rgb(207, 227, 248) !important;
+    border-color: rgb(207, 227, 248) !important;
   }
 </style>
 {{super()}}
@@ -16,13 +16,13 @@
       <i class="fas fa-times sidenav__brand-close"></i>
     </div>
     <ul class="sidenav__list">
-      <a href="/" style="padding:3em;"><img src=" {{url_for('static', filename='exit.svg')}}"style="width:2em;"></a>
+      <a href="/" style="padding:3em;"><img src=" {{url_for('static', filename='exit.svg')}}" style="width:2em;"></a>
       <div class="list-group" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action active" id="list-dashboard-list" data-toggle="list"
           href="#list-dashboard" role="tab" aria-controls="dashboard">Dashboard</a>
 
-        <a class="list-group-item list-group-item-action" id="list-comments-list" data-toggle="list" href="#list-comments"
-          role="tab" aria-controls="comments">Comments</a>
+        <a class="list-group-item list-group-item-action" id="list-comments-list" data-toggle="list"
+          href="#list-comments" role="tab" aria-controls="comments">Comments</a>
 
         <a class="list-group-item list-group-item-action" id="list-subreddits-list" data-toggle="list"
           href="#list-subreddits" role="tab" aria-controls="subreddits">Subreddits</a>
@@ -42,15 +42,15 @@
     </div>
     <div class="tab-pane fade" id="list-comments" role="tabpanel" aria-labelledby="list-comments-list"
       style="display: none" active="false">
-     {% include "userComponentComments.html" %} 
+      {% include "userComponentComments.html" %}
     </div>
     <div class="tab-pane fade" id="list-subreddits" role="tabpanel" aria-labelledby="list-subreddits-list"
       style="display: none" active="false">
-     {% include "userComponentSubreddits.html" %} 
+      {% include "userComponentSubreddits.html" %}
     </div>
     <div class="tab-pane fade" id="list-sentiment" role="tabpanel" aria-labelledby="list-sentiment-list"
       style="display: none" active="false">
-     {% include "userComponentSentiment.html" %} 
+      {% include "userComponentSentiment.html" %}
     </div>
   </main>
 </div>
