@@ -246,7 +246,6 @@ def processSubreddits(subreddits, user):
         sentimentCounts = Counter(x['sentiment'] for x in v).most_common()
         numComments = len(v)
         avgScore = float(sum(d['score'] for d in v)) / numComments
-        print(avgScore)
         processed[k] = {
             'sentimentCounts': dict(sentimentCounts),
             'numComments': numComments,

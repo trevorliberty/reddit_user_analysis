@@ -103,7 +103,8 @@ class Users(Model):
         subreddits = {k: {
             'avgScore': Decimal(str(v['avgScore'])),
             'numComments': v['numComments'],
-            'sentimentCounts': v['sentimentCounts']}
+            'sentimentCounts': v['sentimentCounts'],
+            'icon': v['icon']}
             for k, v in user.subreddits.items()
         }
         lowestRated = {
