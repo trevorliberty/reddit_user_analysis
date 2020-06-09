@@ -9,6 +9,7 @@
     <div class="card-deck row" style="width: 100%;">
         <div class="col-6">
             <div class="card card-left" style="height: 100%;">
+             <h5 class="card-title" style="font-weight: bold;">Sentiment change between parent and user comment</h5>
                 <div class="card-body" style="height: 100%;">
                     {% include "barchartSentiment.html" %}
                 </div>
@@ -16,6 +17,7 @@
         </div>
         <div class="col-6 card-right">
             <div class="card" style="height: 100%;">
+             <h5 class="card-title" style="font-weight: bold;">User comment sentiment proportions</h5>
                 <div class="card-body">
                     {% include "doughnutChartSentiment.html" %}
                 </div>

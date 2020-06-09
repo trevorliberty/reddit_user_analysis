@@ -7,47 +7,43 @@
 
 <div class="row" style="padding-left:20px !important; padding-right:0px !important; margin-right:20px !important;">
     ​
-    <div class="col-sm-6">
+    <div class="col-lg-6">
         <div class="card">
+             <h5 class="card-title" style="font-weight: bold;">User Overall Sentiment</h5>
             {% include "barchartyDashboard.html" %}
         </div>
     </div>
     ​
-    <div class="col-sm-3">
-        <div class="card">
-            <h5 class="card-title">Dominant Sentiment</h5>
-            <p class="card-text">
-                {{dominantSentiment}}
-            </p>
-            <hr>
-            <hr>
-            <hr>
-            <h5 class="card-title">Comment Karma</h5>
-            <p class="card-text">
-                {{karma}}
-            </p>
-            <hr>
-            <hr>
-            <hr>
-            <h5 class="card-title">Language Complexity</h5>
-            <p class="card-text">
-                {{languageComplexity}}
-            </p>
-            <hr>
-            <hr>
-            <hr>
+    <div class="col-lg-3" style="display: flex !important; display: -webkit-flex; flex-wrap: wrap;">
+        <div class="card" style="justify-content:space-around">
+            <div>
+                <h5 class="card-title" style="font-weight: bold;">Dominant Sentiment</h5>
+                <p class="card-text" style="text-align: center; font-size:1.3rem">
+                    {{dominantSentiment}}
+                </p>
+            </div>
+            <div>
+                <h5 class="card-title" style="font-weight: bold;">Comment Karma</h5>
+                <p class="card-text" style="text-align: center; font-size:1.3rem">
+                    {{karma}}
+                </p>
+            </div>
+            <div>
+                <h5 class="card-title" style="font-weight: bold;">Language Complexity</h5>
+                <p class="card-text" style="text-align: center; font-size:1.3rem">
+                    {{languageComplexity|round(1)}}/10
+                </p>
+            </div>
         </div>
     </div>
-    <div class="col-sm-3" style="padding-right: 0px !important;">
-        <div class="card">
-            <h5 class="card-title">Top Subreddits</h5>
+    <div class="col-lg-3"
+        style="display: flex !important; display: -webkit-flex; flex-wrap: wrap; padding-right: 0px !important;">
+        <div class="card" style="justify-content:space-around">
+            <h5 class="card-title" style="font-weight: bold;">Top Subreddits</h5>
             {% for subreddit in topSubreddits.keys() %}
             <h5>
                 r/{{subreddit}}
             </h5>
-            <hr>
-            <hr>
-            <hr>
             {% endfor %}
         </div>
     </div>
